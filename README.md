@@ -1,5 +1,5 @@
 # art-programming_physical-computing
-Cet espace correspond au contenu téléchargeable d'un enseignement de Physical Computing destiné aux artistes plasticiens et utilisant Micropython comme langage et le Raspberry Pi Pico W comme plate-forme matérielle.
+Ce dépôt correspond au contenu téléchargeable d'un enseignement de Physical Computing destiné aux étudiants de la Villa Arson et utilisant Micropython comme langage et le Raspberry Pi Pico W comme plate-forme matérielle.
 
 ## Licence
 
