@@ -3,5 +3,4 @@ Cet espace correspond au contenu téléchargeable d'un enseignement de Physical 
 
 ## Licence
 
-art-programming_physical-computing © 2024 by Jean-Louis Paquelin is licensed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International](https://creativecommons.org/licenses/by-nc-sa/4.0/?ref=chooser-v1)
-.
+art-programming_physical-computing © 2024 by Jean-Louis Paquelin is licensed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International](https://creativecommons.org/licenses/by-nc-sa/4.0/?ref=chooser-v1).
