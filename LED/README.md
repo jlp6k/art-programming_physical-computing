@@ -1,3 +1,3 @@
 
-![Pico1W_led.svg](..%2FImages%2FPico1W_led.svg)
-![LED_avec légende.svg](..%2FImages%2FLED_avec%20l%C3%A9gende.svg)
+![LED_labelled_fr_wbg.svg](..%2FImages%2FLED_labelled_fr_wbg.svg)
+![Pico1W_led_wbg.svg](..%2FImages%2FPico1W_led_wbg.svg)
