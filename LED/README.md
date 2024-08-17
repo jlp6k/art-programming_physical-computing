@@ -56,11 +56,24 @@ La tension entre les extrémités du circuit est égale à la tension aux bornes
 
 En vertu de la [loi d'Ohm](https://fr.wikipedia.org/wiki/Loi_d%27Ohm), 
 une résistance connectée en série avec la LED va permettre de réduire la tension 
-aux bornes de la LED. La loi d'Ohm est très simple : la tension `U` (en volts) aux bornes
+aux bornes de la LED. 
+
+```mermaid
+flowchart LR
+    left(" ") --- A[LED]
+    A --- B[Résistance]
+    B --- right(" ")
+```
+
+La loi d'Ohm est très simple : la tension `U` (en volts) aux bornes
 d'une résistance est égale au produit du courant `I` (en ampères) qui la traverse par
 sa valeur `R` (en ohms).
 
-> U = R I
+```mermaid
+flowchart LR
+    A([U = R ✕ I]) ~~~ B([R = U / I]) ~~~ C([I = U / R])  ~~~ D(["$$I=\frac{U}{R}$$"])
+```
+
 
 
 
