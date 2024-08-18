@@ -71,19 +71,83 @@ sa valeur `R` (en ohms).
 
 ```mermaid
 flowchart LR
-    A([U = R ✕ I]) ~~~ B([R = U / I]) ~~~ C([I = U / R])  ~~~ D(["$$I=\frac{U}{R}$$"])
+    A([U = R ✕ I]) ~~~ B([R = U / I]) ~~~ C([I = U / R])
 ```
 
+Prenons par exemple une LED dont la tension de fonctionnement est 2 volts et
+le courant de fonctionnement 10 milliampères que nous alimentons à partir du rail
+à 3,3 volts de notre plaque de prototypage.
 
+![LED_wbg.svg](LED_wbg.svg)
 
+La tension aux bornes de la résistance doit être 3,3 - 2 = 1,3 volts.
+Connaissant la tension (1,3 V) et le courant (10 mA ou 0,01 A), la valeur de la résistance
+peut-être calculée par la formule R = U / I = 1,3 / 0,01 = 130 Ω (Ohm).
 
-La valeur de la résistance peut être calculée en appliquant la loi d'Ohm.
+Ainsi pour alimenter une LED dont la tension de fonctionnement est 2 V et
+le courant 10 mA à partir d'une source de 3,3 V. Il faudra connecter la LED en série
+avec une résistance _d'au moins_ 130 Ω. Une valeur de résistance supérieure diminuera 
+la luminosité de la LED.
 
-[Calculateur de résistance pour LED](https://www.digikey.fr/fr/resources/conversion-calculators/conversion-calculator-led-series-resistor)
+Si vous voulez vous épargner l'effort de ce calcul, nombre de pages web le feront
+pour vous. Par exemple : 
+[calculateur de résistance pour LED chez DigiKey](https://www.digikey.fr/fr/resources/conversion-calculators/conversion-calculator-led-series-resistor)
+
+#### Représentation schématique
+
+Avant de câbler le circuit sur la plaque de prototypage, il peut être utile de tracer
+un schéma du circuit.
 
 ![LED_sch_wbg.svg](LED_sch_wbg.svg)
 
-![LED_wbg.svg](LED_wbg.svg)
+Les circuits intégrés tels que celui utilisé sont généralement représentés
+de façon générique par un carré ou un rectangle d'où partent les différentes connexions.
+
+En revanche, pour de nombreux composants, il existe une (ou plusieurs) représentations
+normalisées.
+
+Dans le schéma, on peut voir que la résistance et la LED sont câblées en série,
+que la cathode (le pôle négatif) de la LED est connectée à la masse 
+du Raspberry Pi Pico qui ne sert qu'à produire la tension de 3,3 V.
+
+#### Résistance
+
+![symbole_résistance.svg](..%2FImages%2Fsymbole_r%C3%A9sistance.svg)
+
+Comme montré dans le dessin ci-dessus, les 
+[résistances](https://fr.wikipedia.org/wiki/R%C3%A9sistance_(composant))
+peuvent être schématiquement représentées de deux façons. Ce sont des composants bipôlaires
+mais ils fonctionnent de manière identique dans les deux sens.
+
+Les résistances les plus courantes dans les usages de hobby se présentent sous
+la forme d'un petit cylindre d'environ 10 mm de long et de 2 ou 3 mm de diamètre
+à chaque extrémité duquel sort une patte métallique (que l'on enfichera dans la plaque
+de prototypage).
+Le corps cylindrique porte plusieurs bandes de couleur qui permettent de noter
+certaines caractéristiques techniques du composant notamment sa valeur en ohms et 
+sa tolérance (la précision de sa valeur).
+Le tableau ci-dessous permet de déterminer la valeur d'une résistance d'après la couleur
+des bandes qu'elle porte.
+
+![Code couleur résistances.svg](..%2FImages%2FCode%20couleur%20r%C3%A9sistances.svg)
+
+Sauriez-vous déterminer les valeurs des résistances ci-dessous (réponse au bas de cette page) ?
+
+![6 résistances de différentes valeurs](https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Electronic-Axial-Lead-Resistors-Array.png/168px-Electronic-Axial-Lead-Resistors-Array.png)
+
+Des aides en ligne sont disponibles pour déterminer ces valeurs, par exemple :
+[calculateur de code couleur des résistances chez DigiKey](https://www.digikey.fr/fr/resources/conversion-calculators/conversion-calculator-resistor-color-code).
+
+#### LED
+
+![symbole_LED.svg](..%2FImages%2Fsymbole_LED.svg)
+
+
+
+
+
+
+
 
 ### LED clignotante
 
@@ -108,5 +172,9 @@ while True:
     # L'état de la LED reste inchangé (pendant le temps de la pause) jusqu'au
     # tour de boucle suivant.
 ```
+
+### Solution de la question sur les valeurs de résistances
+
+![6 résistances de différentes valeurs](https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Electronic-Axial-Lead-Resistors-Array.png/168px-Electronic-Axial-Lead-Resistors-Array.png)
 
 
