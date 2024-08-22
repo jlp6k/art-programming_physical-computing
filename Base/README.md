@@ -20,12 +20,16 @@ Pi Pico.
 suspendue en connectant la patte 37 `3V3_EN` à la masse. La tension de la patte `3V3(OUT)`
 tombera alors à 0 V et le fonctionnement du microcontrôleur sera interrompu.
 
+### Brochage du Pico
+
 ![identification des broches du Raspberry Pi Pico](..%2FImages%2Fpicow-pinout_wbg.svg)
 
-### Commentaire du schéma
+La carte Raspberry Pi Pico W comporte de nombreuses connexions ou broches (_pin_ en anglais).
+Le schéma ci-dessus montre l'ensemble des connexions disponibles et modes de fonctionnement des
+broches, c'est ce qu'on appelle un _pinout diagram_ en anglais.
 
 Comme c'est le cas pour la plupart de la documentation disponible sur des sujets 
-technique, le schéma ci-dessus est en anglais et il est truffé d'acronymes.
+technique, ce schéma est truffé d'acronymes.
 
 Les broches en rouge étiquetées _Power_ concernent l'alimentation de la carte (cf. _supra_).
 
@@ -78,4 +82,13 @@ est à gauche et l'autre à droite de la plaque de prototypage.
 > peuvent être endommagés s'ils sont alimentés en 5 volts. Une grande attention doit être
 > portée à ce sujet.
 
+### Préparation du Raspberry Pi Pico
 
+Il ne faut pas oublier d'installer MicroPython sur le Raspberry Pi Pico W.
+Pour cela il faut suivre les instructions disponibles sur
+https://www.raspberrypi.com/documentation/microcontrollers/micropython.html.
+
+> Important : vous devez installer la version de MicroPython spécifique à la carte 
+> dont vous disposez.
+
+Toutes les versions de MicroPython sont disponibles sur https://micropython.org/download/.

@@ -13,4 +13,3 @@ des fichiers depuis lesquels elles ont été adaptées.
 | pico-1s.png                | https://www.raspberrypi.com/documentation/microcontrollers/images/pico-1s.png                                     |
 | picow-pinout.svg           | https://www.raspberrypi.com/documentation/microcontrollers/images/picow-pinout.svg                                |
 | picow-pinout_wbg.svg       | picow-pinout.svg                                                                                                  |
-
