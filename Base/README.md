@@ -1,16 +1,16 @@
-La tension de fonctionnement du microcontrôleur RP2040 qui équipe la carte Raspberry Pi Pico est de 3,3 V. La carte peut être alimentée de
+La tension de fonctionnement du microcontrôleur RP2040 qui équipe la carte Raspberry Pi Pico est de 3.3 V. La carte peut être alimentée de
 deux manières : 
 
-1. Par le port USB, la carte reçoit alors une tension de 5 V qui est abaissée à 3,3 V.
-2. Par la patte 39 nommée `VSYS`, dans ce cas, il faut appliquer une tension comprise entre 1,8 V
-et 5,5 V qui est augmentée ou abaissée automatiquement aux 3,3 V requis. 
+1. Par le port USB, la carte reçoit alors une tension de 5 V qui est abaissée à 3.3 V.
+2. Par la patte 39 nommée `VSYS`, dans ce cas, il faut appliquer une tension comprise entre 1.8 V
+et 5.5 V qui est augmentée ou abaissée automatiquement aux 3.3 V requis. 
 
 La patte 40 du Raspberry Pico est appelée `VBUS`. Elle donne accès au circuit d'alimentation fourni 
 par la connexion USB, c'est-à-dire une tension de 5 V. Elle est à la masse si le Pico n'est pas
 alimenté par le port USB.
 
 La patte 36 est appelée `3V3(OUT)`. Lorsque le Pico est alimenté, elle fournit une tension constante
-de 3,3 V.
+de 3.3 V.
 Le courant maximum que cette patte peut délivrer est de 300 mA.
 
 Les pattes 3, 8, 13, 18, 23, 28, 33, 38 sont nommées `GND` et connectées à la masse (0 V) du Raspberry
@@ -71,14 +71,14 @@ En MicroPython, l'usage de ces broches n'est généralement pas très utile.
 
 ### Câblage
 
-Le câblage des plaques de prototypage commence avec les rails d'alimentation 
+Le câblage des platines de prototypage commence avec les rails d'alimentation 
 latéraux. Les rails de masse sont repérées par un marquage bleu.
-Les rails de 3,3 et 5 volts sont marqués en rouge. Rien ne les distingue hormis que l'un
-est à gauche et l'autre à droite de la plaque de prototypage.
+Les rails de 3.3 et 5 volts sont marqués en rouge. Rien ne les distingue hormis que l'un
+est à gauche et l'autre à droite de la platine de prototypage.
 
-![câblage de l'alimentation d'une plaque de prototypage à partir d'un Rasperry Pi Pico](Base_wbg.svg)
+![câblage de l'alimentation d'une platine de prototypage à partir d'un Rasperry Pi Pico](Base_wbg.svg)
 
-> Les composants qui fonctionnent avec une tension d'alimentation de 3,3 volts
+> Les composants qui fonctionnent avec une tension d'alimentation de 3.3 volts
 > peuvent être endommagés s'ils sont alimentés en 5 volts. Une grande attention doit être
 > portée à ce sujet.
 

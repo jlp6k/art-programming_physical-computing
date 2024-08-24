@@ -33965,28 +33965,35 @@
      inkscape:pageopacity="0.0"
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
-     inkscape:zoom="0.78700071"
-     inkscape:cx="304.95525"
-     inkscape:cy="160.73683"
+     inkscape:zoom="3.0884858"
+     inkscape:cx="240.89475"
+     inkscape:cy="105.06767"
      inkscape:window-width="1600"
      inkscape:window-height="740"
      inkscape:window-x="0"
      inkscape:window-y="25"
      inkscape:window-maximized="0"
-     inkscape:current-layer="g3" />
+     inkscape:current-layer="layer5" />
   <g
-     id="g1"
      inkscape:groupmode="layer"
-     inkscape:label="1"
-     transform="translate(-8,-27.833326)">
+     id="layer4"
+     inkscape:label="3">
     <rect
-       style="fill:#ffffff;fill-opacity:0.99;stroke:none;stroke-width:0.785395;stroke-linecap:square;stroke-linejoin:round;stroke-dasharray:0.785395, 1.57079"
+       style="display:inline;fill:#ffffff;fill-opacity:0.99;stroke:none;stroke-width:0.785395;stroke-linecap:square;stroke-linejoin:round;stroke-dasharray:0.785395, 1.57079"
        id="rect1"
        width="644"
        height="247"
        x="8"
        y="27.833326"
-       inkscape:label="fond" />
+       inkscape:label="fond"
+       transform="translate(-8,-27.833326)" />
+  </g>
+  <g
+     id="g1"
+     inkscape:groupmode="layer"
+     inkscape:label="platine de prototypage"
+     transform="translate(-8,-27.833326)"
+     style="display:inline">
     <g
        id="g2"
        transform="translate(-0.02885643,4.8306704)">
@@ -56575,57 +56582,86 @@
            id="path7530" />
       </g>
     </g>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="rails d'alimentation">
     <g
        id="g3"
-       style="display:inline">
-      <rect
-         style="fill:#000000;fill-opacity:0.2;stroke:none;stroke-width:1;stroke-linecap:square;stroke-linejoin:round;stroke-dasharray:1, 2;stroke-dashoffset:0;stroke-opacity:1"
-         id="rect7536"
-         width="575.58795"
-         height="8.2729998"
-         x="37.433575"
-         y="73.323326" />
-      <rect
-         style="fill:#000000;fill-opacity:0.2;stroke:none;stroke-width:1.17725;stroke-linecap:square;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
-         id="rect7537"
-         width="575.58844"
-         height="8.2729998"
-         x="37.433575"
-         y="82.923828" />
-      <rect
-         style="fill:#000000;fill-opacity:0.2;stroke:none;stroke-width:1.17725;stroke-linecap:square;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
-         id="rect7538"
-         width="575.58795"
-         height="8.2729998"
-         x="37.433575"
-         y="246.12282" />
-      <rect
-         style="fill:#000000;fill-opacity:0.2;stroke:none;stroke-width:1.17725;stroke-linecap:square;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
-         id="rect7539"
-         width="575.58844"
-         height="8.2729998"
-         x="37.433575"
-         y="255.72331" />
+       style="display:inline"
+       transform="translate(-8,-27.833326)">
       <path
          style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.134;stroke-linecap:square;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#DartArrow)"
-         d="M 84.683745,39.084805 75.8234,235.4936"
+         d="M 83.129603,43.418741 69.293007,243.1222"
          id="path7532"
          sodipodi:nodetypes="cc" />
       <path
          style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.134;stroke-linecap:square;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#DartArrow)"
-         d="M 200.49058,40.53239 148.21513,244.99814"
+         d="M 200.49058,40.53239 147.61757,252.91951"
          id="path7534"
          sodipodi:nodetypes="cc" />
       <path
          style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.134;stroke-linecap:square;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#DartArrow)"
-         d="m 200.65861,40.469683 14.0055,32.125551"
+         d="m 200.65861,40.469683 14.09198,30.522326"
          id="path7535"
          sodipodi:nodetypes="cc" />
       <path
          style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.134;stroke-linecap:square;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#DartArrow)"
-         d="m 320.65861,40.469683 9.0717,22.716688"
+         d="m 320.65861,40.469683 9.74741,30.157921"
          id="path7536"
          sodipodi:nodetypes="cc" />
     </g>
+    <rect
+       style="display:inline;fill:none;fill-opacity:0.2;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:2, 2;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect7539"
+       width="575.58844"
+       height="8.2729998"
+       x="29.433575"
+       y="227.8197"
+       ry="4.1364999"
+       inkscape:label="rect7539" />
+    <rect
+       style="display:inline;fill:none;fill-opacity:0.2;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:2, 2;stroke-dashoffset:2.4;stroke-opacity:1"
+       id="rect2"
+       width="575.58844"
+       height="8.2729998"
+       x="29.433575"
+       y="218.22084"
+       ry="4.1364999"
+       inkscape:label="rect7539" />
+    <rect
+       style="display:inline;fill:none;fill-opacity:0.2;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:2, 2;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect3"
+       width="575.58844"
+       height="8.2729998"
+       x="29.433575"
+       y="55.019703"
+       ry="4.1364999"
+       inkscape:label="rect7539" />
+    <rect
+       style="display:inline;fill:none;fill-opacity:0.2;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:2, 2;stroke-dashoffset:2.4;stroke-opacity:1"
+       id="rect4"
+       width="575.58844"
+       height="8.2729998"
+       x="29.433575"
+       y="45.420845"
+       ry="4.1364999"
+       inkscape:label="rect7539" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer5"
+     inkscape:label="connexions des composants">
+    <rect
+       style="display:inline;fill:none;fill-opacity:0.2;stroke:#000000;stroke-width:0.305913;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:0.611825, 0.611825;stroke-dashoffset:0.734192;stroke-opacity:1"
+       id="rect5"
+       width="49.694038"
+       height="8.9673891"
+       x="35.883957"
+       y="-321.06372"
+       ry="4.4836946"
+       inkscape:label="rect7539"
+       transform="rotate(90)" />
   </g>
 </svg>
