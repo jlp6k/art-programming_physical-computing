@@ -186,7 +186,7 @@ Si vous voulez vous épargner l'effort de ces calculs, nombre de pages web les f
 pour vous. Par exemple : 
 [calculateur de résistance pour LED chez DigiKey](https://www.digikey.fr/fr/resources/conversion-calculators/conversion-calculator-led-series-resistor)
 
-#### Résistance
+#### Résistance ✊
 
 ![symboles des résistances](..%2FImages%2Fsymbole_r%C3%A9sistance.svg)
 
@@ -243,7 +243,7 @@ Cette pratique offre également une marge de sécurité.
 Avant de câbler le circuit sur la platine de prototypage, il peut être utile de tracer
 un schéma du circuit.
 
-![Schéma de câblage d'une LED alimentée par un Raspberry Pi Pico](assets%2FLED_sch_wbg.svg)
+![Schéma de câblage d'une LED alimentée par un Raspberry Pi Pico](assets%2FLED_0_sch_wbg.svg)
 
 Les circuits intégrés tels que celui utilisé sont généralement symbolisés
 de façon générique par un carré ou un rectangle d'où partent les différentes connexions.
@@ -252,24 +252,54 @@ Dans le schéma, on peut voir que la résistance et la LED sont câblées en sé
 que la cathode (le pôle négatif) de la LED est connectée à la masse 
 du Raspberry Pi Pico qui ne sert qu'à produire la tension de 3.3 V.
 
-![platine de prototypage avec une LED](assets%2FLED_wbg.svg)
+![platine de prototypage avec une LED](assets%2FLED_0_wbg.svg)
 
 Le câblage correspond au schéma.
 
-1. L'anode de la LED, la plus longue patte du composant, le côte triangulaire sur le schéma,
-est connectée à une patte de la résistance de 220 Ω (dont le code de couleur est 
+1. L'anode de la LED, la plus longue patte du composant, le côté triangulaire de la diode sur
+le schéma, est connectée à une patte de la résistance de 220 Ω (dont le code de couleur est 
 rouge rouge marron).
 2. L'autre patte de la résistance est connectée au rail à 3.3 V de la platine de prototypage.
-3. La cathode, la patte la plus courte de la LED, la barre sur le schéma, est connectée à 
-un rail de masse de la platine de prototypage.
+3. La cathode, la patte la plus courte de la LED, la barre de la diode sur le schéma, 
+est connectée à un rail de masse de la platine de prototypage.
+
+| 🔴⚠️ Vérifiez toujours deux fois votre câblage avant de brancher l'alimentation. ⚠️ 🔴 |
+|----------------------------------------------------------------------------------------|
+
+Le câblage de la LED sur la platine de prototypage utilise deux câbles.
+L'un (orange) va du rail 3.3 V à la résistance, l'autre (noir) va de la LED
+au rail de masse.
+Sauriez-vous construire le même circuit sans utiliser ces deux câbles 
+(réponse au bas de cette page) ?
+
+### LED clignotante
+
+Nous avons fait clignoter la LED du Pico, faisons la même chose avec une
+autre LED.
+
+Commençons par dessiner le schéma de câblage.
+Pour cela, nous devons commencer par choisir quelle broche de la carte
+Raspberry Pi Pico nous utiliserons pour commander la LED.
+
+Nous allons utiliser la broche 19 de la carte qui correspond au port
+GPIO 14 du microcontrôleur RP2040.
+
+![picow-pinout_wbg.svg](..%2FImages%2Fpicow-pinout_wbg.svg)
+
+Ce choix est un peu arbitraire. Mais il est préférable de conserver
+les ports GPIO 26, 27 et 28 qui peuvent être utilisés pour convertir
+des signaux analogiques en numérique, nous y reviendrons plus tard.
 
 
 
 
 
-### Solution de la question sur les valeurs de résistances
 
-De haut en bas :
+
+
+### Solutions des questions
+
+Valeurs de résistances, de haut en bas :
 
 - 4.7kΩ ±5%
 - 2.2kΩ ±5%
@@ -282,3 +312,6 @@ De haut en bas :
 
 Source de l'image : https://en.wikipedia.org/wiki/Resistor#/media/File:Electronic-Axial-Lead-Resistors-Array.png
 
+Version compacte du circuit d'alimentation de la LED :
+
+![Photographie de la version compacte du circuit d'alimentation de la LED](assets%2Falimentation%20LED.jpg)

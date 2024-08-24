@@ -72,15 +72,23 @@ En MicroPython, l'usage de ces broches n'est généralement pas très utile.
 ### Câblage
 
 Le câblage des platines de prototypage commence avec les rails d'alimentation 
-latéraux. Les rails de masse sont repérées par un marquage bleu.
-Les rails de 3.3 et 5 volts sont marqués en rouge. Rien ne les distingue hormis que l'un
-est à gauche et l'autre à droite de la platine de prototypage.
+latéraux. Les rails de masse sont repérées par un marquage latéral bleu.
 
-![câblage de l'alimentation d'une platine de prototypage à partir d'un Rasperry Pi Pico](Base_wbg.svg)
+Les rails de 3.3 et 5 volts sont marqués en rouge.
+Rien ne les distingue hormis que l'un est à gauche et l'autre à droite
+de la platine de prototypage.
+
+![câblage de l'alimentation d'une platine de prototypage à partir d'un Rasperry Pi Pico](assets%2FBase_wbg.svg)
 
 > Les composants qui fonctionnent avec une tension d'alimentation de 3.3 volts
 > peuvent être endommagés s'ils sont alimentés en 5 volts. Une grande attention doit être
 > portée à ce sujet.
+
+Les trous de la platine de prototypage sont reliés horizontalement
+sous les rails d'alimentation.
+
+Les trous sont reliés verticalement en deux séries de cinq trous
+dans la partie centrale.
 
 ### Préparation du Raspberry Pi Pico
 
