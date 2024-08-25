@@ -22,7 +22,7 @@ tombera alors à 0 V et le fonctionnement du microcontrôleur sera interrompu.
 
 ### Brochage du Pico
 
-![identification des broches du Raspberry Pi Pico](..%2FImages%2Fpicow-pinout_wbg.svg)
+![identification des broches du Raspberry Pi Pico](..%2F..%2FImages%2Fpicow-pinout_wbg.svg)
 
 La carte Raspberry Pi Pico W comporte de nombreuses connexions ou broches (_pin_ en anglais).
 Le schéma ci-dessus montre l'ensemble des connexions disponibles et modes de fonctionnement des
@@ -78,7 +78,8 @@ Les rails de 3.3 et 5 volts sont marqués en rouge.
 Rien ne les distingue hormis que l'un est à gauche et l'autre à droite
 de la platine de prototypage.
 
-![câblage de l'alimentation d'une platine de prototypage à partir d'un Rasperry Pi Pico](assets%2FBase_wbg.svg)
+![câblage de l'alimentation d'une platine de prototypage à partir d'un Rasperry Pi Pico](
+Base_wbg.svg)
 
 > Les composants qui fonctionnent avec une tension d'alimentation de 3.3 volts
 > peuvent être endommagés s'ils sont alimentés en 5 volts. Une grande attention doit être

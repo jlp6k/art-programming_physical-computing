@@ -6,13 +6,14 @@ le Raspberry Pi Pico W comme plate-forme matérielle.
 ## Comment utiliser ce dépôt ?
 
 Ce dépôt est organisé en dossiers. La plupart de ces dossiers correspondent à des
-ateliers-leçons permettant d'acquérir une ou plusieurs compétences.
+ateliers-leçons permettant d'acquérir une ou plusieurs connaissances et compétences.
+L'ordre de lecture des ateliers est important car ils sont classés par difficulté
+croissante et les ateliers les plus avancés dépendent de ceux qui les précèdent.
 
-L'ordre de lecture des dossiers est important :
-
-1. [`Base`](Base): commencer le prototypage électronique avec le Raspberry Pi Pico.
+1. [`Base`](Ateliers%2F1_Base) :
+pour commencer le prototypage électronique avec le Raspberry Pi Pico.
 C'est un atelier dont la mise en œuvre est préalable à tous les autres ateliers.
-2. [`LED`](LED): allumer une LED.
+2. [`LED`](Ateliers%2F2_LED): allumer une LED, la faire clignoter.
 
 ## Licence
 
