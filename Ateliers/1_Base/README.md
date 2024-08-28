@@ -22,7 +22,7 @@ tombera alors à 0 V et le fonctionnement du microcontrôleur sera interrompu.
 
 ### Brochage du Pico
 
-![identification des broches du Raspberry Pi Pico](..%2F..%2FImages%2Fpicow-pinout_wbg.svg)
+![identification des broches du Raspberry Pi Pico](../../Images/picow-pinout_wbg.svg)
 
 La carte Raspberry Pi Pico W comporte de nombreuses connexions ou broches (_pin_ en anglais).
 Le schéma ci-dessus montre l'ensemble des connexions disponibles et modes de fonctionnement des
@@ -34,7 +34,9 @@ technique, ce schéma est truffé d'acronymes.
 Les broches en rouge étiquetées _Power_ concernent l'alimentation de la carte (cf. _supra_).
 
 Les broches étiquetées en noir, sont toutes reliées à la masse (0 volt), _Ground_ en anglais.
-Elles sont interchangeables.
+Elles sont équivalentes.
+À noter cependant que l'usage de la broche 33 `AGND` devrait être réservé aux usages analogiques,
+autrement dit, comme masse pour les capteurs analogiques.
  
 [_UART_](https://fr.wikipedia.org/wiki/UART) est un acronyme qui signifie _Universal Asynchronous Receiver Transmitter_.
 Cela désigne ici (en violet) des paires de broches, l'une pour l'émission,
@@ -61,6 +63,11 @@ appliquée à la broche `VSYS` de la carte Raspberry Pi Pico.
 Il existe également un convertisseur nommé `ADC4` qui donne accès à la
 température de fonctionnement de la puce RP2040.
 
+L'ensemble des broches notées `GPIO` (_General Purpose Input Output_) peuvent être utilisées
+pour émettre ou recevoir des signaux numériques (des 0 et des 1).
+Une broche utilisée dans ce mode général ne pourra pas être simultanément utilisées pour fonctionner
+selon un protocole de communication _UART_, _I2C_ ou _SPI_, ni comme convertisseur analogique-numérique.
+
 Les deux broches en rose servent à interrompre le fonctionnement / redémarrer
 le microcontrôleur. Elles ont un effet lorsqu'elles sont connectées à la masse.
 
@@ -78,8 +85,7 @@ Les rails de 3.3 et 5 volts sont marqués en rouge.
 Rien ne les distingue hormis que l'un est à gauche et l'autre à droite
 de la platine de prototypage.
 
-![câblage de l'alimentation d'une platine de prototypage à partir d'un Rasperry Pi Pico](
-Base_wbg.svg)
+![câblage de l'alimentation d'une platine de prototypage à partir d'un Rasperry Pi Pico](assets/Base_proto_wbg.svg)
 
 > Les composants qui fonctionnent avec une tension d'alimentation de 3.3 volts
 > peuvent être endommagés s'ils sont alimentés en 5 volts. Une grande attention doit être

@@ -3,9 +3,10 @@ Une [LED](https://fr.wikipedia.org/wiki/Diode_%C3%A9lectroluminescente)
 électronique semiconducteur qui produit de la lumière lorsqu'il est correctement alimenté.
 
 À ce jour (2024/08/15), toutes les versions des cartes Raspberry Pi Pico sont équipées
-d'une LED verte.
+d'une LED verte. La broche qui contrôle la LED varie cependant d'un modèle 
+à l'autre.
 
-![Emplacement de la LED sur la carte Raspberry Pi Pico W](..%2F..%2FImages%2FPico1W_led_wbg.svg)
+![Emplacement de la LED sur la carte Raspberry Pi Pico W](../../Images/Pico1W_led_wbg.svg)
 
 ### Allumer la LED du Pico
 
@@ -18,7 +19,7 @@ import time
 
 # On affecte à la variable led_pin un objet décrivant la broche à laquelle
 # est connectée la 2_LED du Pico et la configuration de cette broche (ici en sortie).
-led_pin = machine.Pin("2_LED", machine.Pin.OUT)
+led_pin = machine.Pin("LED", machine.Pin.OUT)
 
 # On appelle la méthode on() de l'objet led_pin afin de passer la broche correspondante
 # à 1. Cela a pour effet d'alimenter la 2_LED qui s'allume.
@@ -41,7 +42,7 @@ import machine
 import time
 
 # On configure la broche qui contrôle la 2_LED du Pico.
-led_pin = machine.Pin("2_LED", machine.Pin.OUT)
+led_pin = machine.Pin("LED", machine.Pin.OUT)
 
 # On démarre une boucle infinie.
 while True:
@@ -78,8 +79,8 @@ Dans ce cas, on dit que la diode est bloquée.
 la tension à la cathode) dépasse une valeur maximale dépendante du modèle de diode employée,
 la diode sera détruite.
 
-![symbole_diode.svg](..%2F..%2FImages%2Fsymbole_diode.svg)
-![symbole des LEDs](..%2F..%2FImages%2Fsymbole_LED.svg) 
+![symbole_diode.svg](../../Images/symbole_diode.svg)
+![symbole des LEDs](../../Images/symbole_LED.svg) 
 
 Les dessins ci-dessus sont les représentations symboliques d'une diode et d'une LED.
 Le côté positif d'une diode (l'anode) est matérialisé par un triangle,
@@ -87,7 +88,7 @@ le côte négatif (la cathode) est matérialisé par une barre.
 Les flêches sur le symbole de la LED figurent la lumière émise par ce type
 de diode lorsqu'un courant les traverses (lorsque qu'elles sont passantes).
 
-![Anatomie d'une LED](..%2F..%2FImages%2FLED_labelled_fr_wbg.svg)
+![Anatomie d'une LED](../../Images/LED_labelled_fr_wbg.svg)
 
 Les LEDs ont des caractéristiques physiques variables. Les plus importantes sont leur
 couleur, leur dimension et forme, leur tension d'alimentation et le courant maximum
@@ -99,7 +100,7 @@ fabrication (et rarement par la couleur du plastique qui l'encapsule).
 Les LEDs que l'on peut utiliser sur une platine de prototypage sont disponibles
 dans de nombreuses couleurs et généralement en 3 ou 5 mm de diamètre.
 
-![Leds vert, rouge et bleue](GRB%20leds_bbg.jpg)
+![Leds vert, rouge et bleue](assets/GRB%20leds_bbg.jpg)
 
 Pour connaître la tension d'alimentation exacte d'une LED et le courant qui peut la
 traverser, il faut se référer à sa fiche technique.
@@ -188,7 +189,7 @@ pour vous. Par exemple :
 
 #### Résistance ✊
 
-![symboles des résistances](..%2F..%2FImages%2Fsymbole_r%C3%A9sistance.svg)
+![symboles des résistances](../../Images/symbole_r%C3%A9sistance.svg)
 
 Comme montré dans le dessin ci-dessus, les 
 [résistances](https://fr.wikipedia.org/wiki/R%C3%A9sistance_(composant))
@@ -208,7 +209,7 @@ sa tolérance (la précision de sa valeur).
 Le tableau ci-dessous permet de déterminer la valeur d'une résistance d'après la couleur
 des bandes qu'elle porte.
 
-![Code couleur résistances.svg](..%2F..%2FImages%2FCode%20couleur%20r%C3%A9sistances.svg)
+![Code couleur résistances.svg](../../Images/Code%20couleur%20r%C3%A9sistances.svg)
 
 Sauriez-vous déterminer les valeurs des résistances ci-dessous (réponse au bas de cette page) ?
 
@@ -243,7 +244,7 @@ Cette pratique offre également une marge de sécurité.
 Avant de câbler le circuit sur la platine de prototypage, il peut être utile de tracer
 un schéma du circuit.
 
-![Schéma de câblage d'une LED alimentée par un Raspberry Pi Pico](LED_0_sch_wbg.svg)
+![Schéma de câblage d'une LED alimentée par un Raspberry Pi Pico](assets/LED_0_sch_wbg.svg)
 
 Les circuits intégrés tels que celui utilisé sont généralement symbolisés
 de façon générique par un carré ou un rectangle d'où partent les différentes connexions.
@@ -252,7 +253,7 @@ Dans le schéma, on peut voir que la résistance et la LED sont câblées en sé
 que la cathode (le pôle négatif) de la LED est connectée à la masse 
 du Raspberry Pi Pico qui ne sert qu'à produire la tension de 3.3 V.
 
-![platine de prototypage avec une LED](LED_0_wbg.svg)
+![platine de prototypage avec une LED](assets/LED_0_proto_wbg.svg)
 
 Le câblage correspond au schéma.
 
@@ -281,10 +282,10 @@ Commençons par dessiner le schéma de câblage.
 Pour cela, nous devons commencer par choisir quelle broche de la carte
 Raspberry Pi Pico nous utiliserons pour commander la LED.
 
-Nous allons utiliser la broche 19 de la carte qui correspond au port
-GPIO 14 du microcontrôleur RP2040.
+Nous allons utiliser la broche 20 de la carte qui correspond au port
+GPIO 15 du microcontrôleur RP2040.
 
-![picow-pinout_wbg.svg](..%2F..%2FImages%2Fpicow-pinout_wbg.svg)
+![picow-pinout_wbg.svg](../../Images/picow-pinout_wbg.svg)
 
 Ce choix est un peu arbitraire.
 Mais nous préférerons de conserver les ports GPIO 26, 27 et 28 qui
@@ -297,8 +298,22 @@ Le microcontrôleur RP2040 fonctionnant avec une tension de 3.3 V, la broche
 produira cette tension quand nous la programmerons à 1 et sera connectée
 à la masse quand nous la programmerons à 0.
 
-À noter cependant qui si la broche `3V3(OUT)` peut délivrer 300 mA,
+À noter cependant que si la broche `3V3(OUT)` peut délivrer 300 mA,
 ce n'est pas le cas des broches GPIO.
+Ces broches peuvent délivrer jusqu'à 4 mA mais cela peut être ajusté
+par programmation entre 2 et 12 mA.
+
+![LED_1_sch_wbg.svg](assets/LED_1_sch_wbg.svg)
+
+La mise en œuvre du circuit sur la plaque de prototypage est directe.
+
+La broche 20 du Pico est connectée à une résistance de 220 Ω,
+elle même connectée à l'anode de la LED. La seconde patte de la LED
+(la cathode) est reliée à l'un des rail de masse de la plaque de prototypage
+(sans toucher la patte de la résistance).
+
+![LED_1_proto_wbg.svg](assets/LED_1_proto_wbg.svg)
+
 
 
 
@@ -325,4 +340,4 @@ Source de l'image : https://en.wikipedia.org/wiki/Resistor#/media/File:Electroni
 
 Version compacte du circuit d'alimentation de la LED :
 
-![Photographie de la version compacte du circuit d'alimentation de la LED](alimentation%20LED.jpg)
+![Photographie de la version compacte du circuit d'alimentation de la LED](assets/alimentation%20LED.jpg)

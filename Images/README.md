@@ -16,3 +16,10 @@ des fichiers depuis lesquels elles ont été adaptées.
 | symbole_diode.svg          | Electrical_Symbols_IEC.svg                                                                                       |
 | symbole_LED.svg            | Electrical_Symbols_IEC.svg                                                                                       |
 | symbole_résistance.svg     | Electrical_Symbols_IEC.svg                                                                                       |
+
+Les retouches des images ont été réalisées avec [Inkscape](https://inkscape.org/) 
+et [Gimp](https://www.gimp.org/).
+
+Les schémas et les prototypes de circuits ont été produits avec le logiciel
+[Fritzing](https://fritzing.org/).
+
