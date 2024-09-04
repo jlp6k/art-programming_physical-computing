@@ -319,7 +319,7 @@ la classe `PWMControl` contenue dans le module `pwm_control`.
 Le module est donc importé au début du programme. Il doit également être
 copié dans le répertoire racine du Raspberry Pi Pico.
 
-https://github.com/jlp6k/art-programming_physical-computing/blob/0b90145ba2e12ff4e4c5ed7a42bc5aaebe92f7d6/Ateliers/2_LED/LED_1.py?plain=1
+https://github.com/jlp6k/art-programming_physical-computing/blob/0b90145ba2e12ff4e4c5ed7a42bc5aaebe92f7d6/Ateliers/2_LED/LED_1.py?plain=1#L1
 
 ### Trois LEDs clignotantes
 
