@@ -303,7 +303,7 @@ ce n'est pas le cas des broches GPIO.
 Ces broches délivrent jusqu'à 4 mA mais cela peut être ajusté
 par programmation entre 2 et 12 mA.
 
-![LED_1_sch_wbg.svg](assets/LED_1_sch_wbg.svg)
+![Schéma de câblage d'une LED connectée au GPIO 15.svg](assets/LED_1_sch_wbg.svg)
 
 La mise en œuvre du circuit sur la plaque de prototypage est directe.
 
@@ -312,21 +312,26 @@ elle même connectée à l'anode de la LED. La seconde patte de la LED
 (la cathode) est reliée à l'un des rails de masse de la plaque de prototypage
 (sans toucher la patte de la résistance).
 
-![LED_1_proto_wbg.svg](assets/LED_1_proto_wbg.svg)
+![Platine de prototypage avec une LED connectée au GPIO 15.svg](assets/LED_1_proto_wbg.svg)
 
 Le code permettant de faire clignoter la LED connectée au GPIO 15 utilise
 la classe `PWMControl` contenue dans le module `pwm_control`.
 Le module est donc importé au début du programme. Il doit également être
 copié dans le répertoire racine du Raspberry Pi Pico.
 
-
-https://github.com/jlp6k/art-programming_physical-computing/blob/15a0323ba0da359946ecda973b6a25f02d4ee536/Ateliers/2_LED/LED_1.py?plain=1
-
-https://github.com/jlp6k/art-programming_physical-computing/blob/main/Ateliers/2_LED/LED_1.py?plain=1
+Voir le programme Python [`LED_1.py`](https://github.com/jlp6k/art-programming_physical-computing/blob/main/Ateliers/2_LED/LED_1.py).
 
 ### Trois LEDs clignotantes
 
-Trois LEDs clignotantes, c'est mieux qu'une seule.
+Trois LEDs clignotantes, c'est mieux qu'une seule. C'est pourquoi nous allons
+faire clignoter la LED connectée au GPIO 15, une autre LED que nous allons
+connecter au GPIO 14 (broche 19) et la LED présente sur la carte Raspberry Pi Pico.
+
+![Schéma de câblage d'une LED connectée aux GPIOs 14 et 15](assets/LED_2_sch_wbg.svg)
+
+À partir de ce schéma, sauriez-vous câbler la platine de prototypage ?
+(Solution en bas de page.)
+
 
 
 
@@ -356,3 +361,8 @@ Source de l'image : https://en.wikipedia.org/wiki/Resistor#/media/File:Electroni
 Version compacte du circuit d'alimentation de la LED :
 
 ![Photographie de la version compacte du circuit d'alimentation de la LED](assets/alimentation%20LED.jpg)
+
+La platine de prototypage avec une LED connectée à la broche 20 et une autre
+connectée à la broche 19.
+
+![platine de prototypage avec 2 LEDs connectées au GPIO 14 et 15](assets/LED_2_proto_wbg.svg)
