@@ -1,7 +1,5 @@
 # Ce programme définit la classe PWMControl.
 
-import math
-
 from time import ticks_ms, ticks_diff
 from machine import Pin, PWM, Timer
 
