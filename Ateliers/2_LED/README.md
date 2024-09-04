@@ -300,7 +300,7 @@ produira cette tension quand nous la programmerons à 1 et sera connectée
 
 À noter cependant que si la broche `3V3(OUT)` peut délivrer 300 mA,
 ce n'est pas le cas des broches GPIO.
-Ces broches peuvent délivrer jusqu'à 4 mA mais cela peut être ajusté
+Ces broches délivrent jusqu'à 4 mA mais cela peut être ajusté
 par programmation entre 2 et 12 mA.
 
 ![LED_1_sch_wbg.svg](assets/LED_1_sch_wbg.svg)
@@ -309,10 +309,22 @@ La mise en œuvre du circuit sur la plaque de prototypage est directe.
 
 La broche 20 du Pico est connectée à une résistance de 220 Ω,
 elle même connectée à l'anode de la LED. La seconde patte de la LED
-(la cathode) est reliée à l'un des rail de masse de la plaque de prototypage
+(la cathode) est reliée à l'un des rails de masse de la plaque de prototypage
 (sans toucher la patte de la résistance).
 
 ![LED_1_proto_wbg.svg](assets/LED_1_proto_wbg.svg)
+
+Le code permettant de faire clignoter la LED connectée au GPIO 15 utilise
+la classe `PWMControl` contenue dans le module `pwm_control`.
+Le module est donc importé au début du programme. Il doit également être
+copié dans le répertoire racine du Raspberry Pi Pico.
+
+https://github.com/jlp6k/art-programming_physical-computing/blob/0b90145ba2e12ff4e4c5ed7a42bc5aaebe92f7d6/Ateliers/2_LED/LED_1.py
+
+### Trois LEDs clignotantes
+
+Trois LEDs clignotantes, c'est mieux qu'une seule.
+
 
 
 

@@ -3,9 +3,6 @@ from pwm_control import PWMControl
 # Le programme est inclus dans un gestionnaire d'exception afin de s'arrêter proprement
 # s'il est interrompu.
 try:
-    # Le module random va être utilisé pour faire varier la vitesse de clignotement
-    # d'une LED.
-    from random import random
     from time import sleep
 
     # La LED est connectée sur la broche 20 qui correspond au GPIO 15.
@@ -15,20 +12,30 @@ try:
     # quelle broche il doit contrôler.
     led = PWMControl(ext_led_gpio)
 
-
     while True:
+        # On commence par indiquer à l'objet led que la largeur d'impulsion doit être maximale.
+        # La LED s'allume à son intensité maximale (compte tenu de sa tension d'alimentation, de la résistance
+        # en série avec le LED, etc.
         led.set_width(1.0)
+        # Puis le programme attend pendant 1 seconde.
         sleep(1)
+        # On commande l'extinction immédiate de la LED.
         led.set_width(0.0)
+        # Le programme attend pendant 1 seconde.
         sleep(1)
-        led.set_width(1.0, 1.5)
+        # La LED s'éclairera progressivement pendant la prochaine seconde et demi.
+        led.set_width(1.0, duration=1.5)
+        # Pendant ce temps, le programme attend 1 seconde et demi.
         sleep(1.5)
-        led.set_width(0.0, 1.5)
+        # Après ce délai, on commande l'extinction progressive de la LED pendant 1 seconde et demi.
+        led.set_width(0.0, duration=1.5)
+        # Puis le programme attend pendant 1 seconde et demi.
         sleep(1.5)
+        # On recommence depuis le début de la boucle.
 
-
+    # Normalement l'exécution n'atteint jamais la ligne suivante puisque la boucle est infinie.
     led.deinit()
 
 except KeyboardInterrupt:
-    # L'utilisateur à interrompu le programme, on réinitialise la carte.
+    # L'utilisateur a interrompu le programme, on réinitialise la carte.
     machine.reset()
