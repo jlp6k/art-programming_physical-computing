@@ -2,7 +2,7 @@ from machine import Pin
 
 from pwm_control import PWMControl
 from scene_control import SceneControl
-# Penser à copier ces deux modules dans le répertoire racine du Raspberry Pi Pico.
+# Penser à copier les deux modules importés dans le répertoire racine du Raspberry Pi Pico.
 
 # Le programme est inclus dans un gestionnaire d'exception afin de s'arrêter proprement
 # s'il est interrompu.

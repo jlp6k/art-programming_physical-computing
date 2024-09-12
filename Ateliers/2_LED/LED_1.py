@@ -1,7 +1,7 @@
 from time import sleep
 
 from pwm_control import PWMControl
-# Penser à copier le module pwm_control dans le répertoire racine du Raspberry Pi Pico.
+# Penser à copier dans le répertoire racine du Raspberry Pi Pico le module pwm_control nouvellement importé.
 
 # Le programme est inclus dans un gestionnaire d'exception afin de s'arrêter proprement
 # s'il est interrompu.

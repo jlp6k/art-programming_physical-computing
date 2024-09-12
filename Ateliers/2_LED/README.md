@@ -319,19 +319,52 @@ la classe `PWMControl` contenue dans le module `pwm_control`.
 Le module est donc importé au début du programme. Il doit également être
 copié dans le répertoire racine du Raspberry Pi Pico.
 
-Voir le programme Python [`LED_1.py`](https://github.com/jlp6k/art-programming_physical-computing/blob/main/Ateliers/2_LED/LED_1.py).
+```python
+from time import sleep
+
+from pwm_control import PWMControl
+
+# La LED est connectée sur la broche 20 qui correspond au GPIO 15.
+ext_led_gpio = 15
+
+# On crée un objet de classe PWMControl pour gérer le clignotement. On lui indique
+# quelle broche il doit contrôler.
+led = PWMControl(ext_led_gpio)
+
+while True:
+    # On commence par indiquer à l'objet led que la largeur d'impulsion doit être maximale.
+    # La LED s'allume à son intensité maximale (compte tenu de sa tension d'alimentation, de la résistance
+    # en série avec le LED, etc.
+    led.set_width(1.0)
+    # Puis le programme attend pendant 1 seconde.
+    sleep(1)
+    # On commande l'extinction immédiate de la LED.
+    led.set_width(0.0)
+    # Le programme attend pendant 1 seconde.
+    sleep(1)
+    # La LED s'éclairera progressivement pendant la prochaine seconde et demi.
+    led.set_width(1.0, duration=1.5)
+    # Pendant ce temps, le programme attend 1 seconde et demi.
+    sleep(1.5)
+    # Après ce délai, on commande l'extinction progressive de la LED pendant 1 seconde et demi.
+    led.set_width(0.0, duration=1.5)
+    # Puis le programme attend pendant 1 seconde et demi.
+    sleep(1.5)
+    # On recommence depuis le début de la boucle.
+```
+Voir le programme complet [`LED_1.py`](https://github.com/jlp6k/art-programming_physical-computing/blob/main/Ateliers/2_LED/LED_1.py).
 
 ### Trois LEDs clignotantes
 
 Trois LEDs clignotantes, c'est mieux qu'une seule. C'est pourquoi nous allons
 faire clignoter la LED connectée au GPIO 15, une autre LED que nous allons
-connecter au GPIO 14 (broche 19) et la LED présente sur la carte Raspberry Pi Pico.
+connecter au GPIO 14 (broche 19). La troisième LED sera celle présente sur la carte 
+Raspberry Pi Pico.
 
 ![Schéma de câblage d'une LED connectée aux GPIOs 14 et 15](assets/LED_2_sch_wbg.svg)
 
 À partir de ce schéma, sauriez-vous câbler la platine de prototypage ?
 (Solution en bas de page.)
-
 
 Si toutes les LEDs clignotent de façon synchrone (simultanément), le programme
 est très simple puisqu'il suffit d'ajouter au programme précédent le contrôle
@@ -358,17 +391,69 @@ C'est l'occasion d'introduire la classe `SceneControl` du module `scene_control`
 Cette classe permet de décrire des scénarios d'appels de fonction
 qui seront exécutés indépendamment les uns des autres.
 
+```python
+from machine import Pin
+
+from pwm_control import PWMControl
+from scene_control import SceneControl
+
+# La LED bleue est connectée sur la broche 19 qui correspond au GPIO 14.
+# La LED verte est connectée sur la broche 20 qui correspond au GPIO 15.
+blue_led_gpio = 14
+green_led_gpio = 15
+
+# On crée un objet de classe PWMControl pour gérer le clignotement. On lui indique
+# quelle broche il doit contrôler.
+green_led = PWMControl(green_led_gpio)
+blue_led = PWMControl(blue_led_gpio)
+
+# La LED qui équipe le Raspberry Pi Pico W ne peut être contrôlée en PWM.
+onboard_led = Pin("LED", Pin.OUT)
+
+# Création d'instances de SceneControl.
+# Une même instance de SceneControl peut contrôler plusieurs LED (ou appeler des fonctions quelconques).
+# Cependant toutes les entités contrôlées fonctionnent dans une même boucle temporelle c'est-à-dire la même
+# fréquence d'activation.
+# scene_a va être utilisé pour contrôler la LED sur la carte Raspberry Pi Pico et la LED verte.
+scene_a = SceneControl()
+# scene_b contrôlera la LED blue.
+scene_b = SceneControl()
+
+# Quand les méthodes start() des objets scene_a et scene_b seront appelées,
+# les scénarios correspondant seront exécutés.
+
+# On n'appelle pas la méthode toggle de l'objet onboard_led. À la place, on programme son exécution immédiate
+# au moment où la méthode start sera appelée.
+scene_a.add_call_after(0, onboard_led.toggle)
+scene_a.add_call_after(1000, onboard_led.toggle)
+scene_a.add_call_after(0, green_led.set_width, 1.0)
+scene_a.add_call_after(250, green_led.set_width, 0.0, duration=1.5)
+# Enfin au bout de 2 secondes, la méthode reinit() sera appelée et le scénario se reproduira
+scene_a.add_call_after(2000, scene_a.reinit)
+# On notera que le fonctionnement de la LED du Pico et de la LED verte est synchronisé et se reproduit
+# à l'identique toutes les 3 secondes.
+
+# On fait de même avec un autre scénario pour contrôler la LED bleue.
+scene_b.add_call_after(500, blue_led.set_width, 1.0)
+scene_b.add_call_after(1000, blue_led.set_width, 0.0)
+scene_b.add_call_after(1001, scene_b.reinit)
+# La période de fonctionnement de la scene_b est de 1,001 seconde.
+# Les 2 dernières tâches sont espacées de 1ms pour garantir que l'appel de scene_b.reinit()
+# sera effectué après l'appel de blue_led.set_width(0.0)
+
+# On démarre les scénarios.
+scene_a.start()
+scene_b.start()
+```
+Voir le programme complet [`LED_2.py`](https://github.com/jlp6k/art-programming_physical-computing/blob/main/Ateliers/2_LED/LED_2.py).
+
+
+> Pour pouvoir utiliser modules `pwm_control` ou `scene_control`, il ne faut pas oublier de 
+> copier leur code à la racine du Pico.
+
 À noter que la LED de la carte Raspberry Pi Pico W ne peut être controlée
-en PWM (contrairement Raspberry Pi Pico). Par conséquent, la classe `PWMControl`
+en PWM (contrairement à celle du Raspberry Pi Pico). Par conséquent, la classe `PWMControl`
 ne peut être utilisée avec cette LED.
-
-
-
-
-
-
-
-
 
 ### Solutions des questions
 
