@@ -333,7 +333,34 @@ connecter au GPIO 14 (broche 19) et la LED présente sur la carte Raspberry Pi P
 (Solution en bas de page.)
 
 
+Si toutes les LEDs clignotent de façon synchrone (simultanément), le programme
+est très simple puisqu'il suffit d'ajouter au programme précédent le contrôle
+des LEDs supplémentaires.
 
+```python
+    # Extrait du programme programme LED_1.py modifié pour contrôler deux LEDs
+    green_led = PWMControl(20)
+    blue_led = PWMControl(19)
+
+    while True:
+        # On allume les LEDs.
+        green_led.set_width(1.0)
+        blue_led.set_width(1.0)
+        
+        # On éteint...
+```
+
+Cette solution n'est plus envisageable si l'on souhaite que les LEDs
+clignotent sur des rythmes différents, par exemple.
+
+C'est l'occasion d'introduire la classe `SceneControl` du module `scene_control`.
+
+Cette classe permet de décrire des scénarios d'appels de fonction
+qui seront exécutés indépendamment les uns des autres.
+
+À noter que la LED de la carte Raspberry Pi Pico W ne peut être controlée
+en PWM (contrairement Raspberry Pi Pico). Par conséquent, la classe `PWMControl`
+ne peut être utilisée avec cette LED.
 
 
 

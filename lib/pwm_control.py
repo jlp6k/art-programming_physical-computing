@@ -70,7 +70,9 @@ class PWMControl:
         self._goal_duty = int(width * 65535)
         
         # print("at", self._initial_ticks, "width will change from", self._initial_duty, "to", self._goal_duty, "in", self._duration_ms, "ms")
-        
+
+    # TODO: add toggle()
+
     def get_width(self):
         """
         """

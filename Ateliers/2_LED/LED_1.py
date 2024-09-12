@@ -1,10 +1,11 @@
+from time import sleep
+
 from pwm_control import PWMControl
+# Penser à copier le module pwm_control dans le répertoire racine du Raspberry Pi Pico.
 
 # Le programme est inclus dans un gestionnaire d'exception afin de s'arrêter proprement
 # s'il est interrompu.
 try:
-    from time import sleep
-
     # La LED est connectée sur la broche 20 qui correspond au GPIO 15.
     ext_led_gpio = 15
 
