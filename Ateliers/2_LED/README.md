@@ -1,3 +1,5 @@
+## LED
+
 Une [LED](https://fr.wikipedia.org/wiki/Diode_%C3%A9lectroluminescente)
 (_Light-Emitting Diode_), diode électroluminescente en français, est un composant
 électronique semiconducteur qui produit de la lumière lorsqu'il est correctement alimenté.

@@ -1,5 +1,7 @@
-La tension de fonctionnement du microcontrôleur RP2040 qui équipe la carte Raspberry Pi Pico est de 3.3 V. La carte peut être alimentée de
-deux manières : 
+## Raspberry Pi Pico et alimentation électrique
+
+La tension de fonctionnement du microcontrôleur RP2040 qui équipe la carte Raspberry Pi Pico est de 3.3 V.
+Cette carte peut être alimentée de deux manières avec une large plage de tensions : 
 
 1. Par le port USB, la carte reçoit alors une tension de 5 V qui est abaissée à 3.3 V.
 2. Par la patte 39 nommée `VSYS`, dans ce cas, il faut appliquer une tension comprise entre 1.8 V
