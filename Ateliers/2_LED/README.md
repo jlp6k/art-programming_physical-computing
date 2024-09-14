@@ -71,15 +71,18 @@ Son fonctionnement est non linéaire et polarisé (ou asymétrique).
 Ainsi, le sens de branchement d'une diode détermine le fonctionnement du circuit
 dont elle fait partie.
 
-Une diode (LED ou autre) laisse passer le courant si la tension appliquée à l'anode,
-le pôle positif, est plus importante qu'à la cathode, le pôle négatif.
+Une diode (LED ou autre) laisse passer le courant si la tension entre l'anode (côté +) et la
+cathode (-) est supérieure à la [_tension de seuil_](https://fr.wikipedia.org/wiki/Diode#Caract%C3%A9ristique)
+de la diode. 
 Dans cette configuration, la diode est dite passante.
-Si la tension est plus importante à la cathode qu'à l'anode, la diode bloque le courant
-Dans ce cas, on dit que la diode est bloquée.
+Si la tension entre l'anode et la cathode est inférieure à la tension de seuil, la diode
+se comporte comme un circuit ouvert, le courant ne circule pas, la diode est dite bloquée.
 
-À noter que si la différence de potentiel (la différence entre la tension à l'anode et
-la tension à la cathode) dépasse une valeur maximale dépendante du modèle de diode employée,
-la diode sera détruite.
+À noter que si la tension au borne de la diode dépasse une valeur maximale (dépendante du 
+modèle de diode employée), la diode sera détruite.
+
+La tension de seuil d'une LED dépend du matériau semiconducteur employé pour
+sa fabrication.
 
 ![symbole_diode.svg](../../Images/symbole_diode.svg)
 ![symbole des LEDs](../../Images/symbole_LED.svg) 
@@ -104,10 +107,10 @@ dans de nombreuses couleurs et généralement en 3 ou 5 mm de diamètre.
 
 ![Leds vert, rouge et bleue](assets/GRB%20leds_bbg.jpg)
 
-Pour connaître la tension d'alimentation exacte d'une LED et le courant qui peut la
-traverser, il faut se référer à sa fiche technique.
+Pour connaître la tension de seuil (_forward threshold voltage_) d'une LED et le courant
+qui peut la  traverser, il faut se référer à sa fiche technique.
+Elle va de 1.6 V environ pour une diode infrarouge et jusqu'à 3.5 V pour une diode blanche.
 
-La tension de fonctionnement d'une LED se situe généralement entre 1 et 3 volts.
 Le courant peut aller de quelques milliampères pour les LEDs les plus courantes qui servent
 à la signalisation visuelle, à quelques ampères pour les LEDs servant à l'éclairage.
 

@@ -61,6 +61,45 @@ de rotation,
 
 ### Régler l'intensité d'une LED
 
+Nous pouvons régler l'intensité lumineuse d'une LED à l'aide de code mais un
+potentiomètre permet également de régler la tension d'alimentation d'une LED
+et donc sa luminosité.
+
+Le schéma ci-dessous met en œuvre un potentiomètre et une LED.
+Une résistance demeure nécessaire pour protéger la LED car lorsque le bouton
+du potentiomètre sera tourné à fond à droite, la résistance du circuit
+qui conduit à l'anode (borne +) de la LED sera nulle.
+
 ![Schéma d'alimentation d'une LED avec tension variable via un potentiomètre](assets/Pot_0_sch_wbg.svg)
 
 ![Platine de prototypage de la LED et son alimentation variable](assets/Pot_0_proto_wbg.svg)
+
+#### Avec deux LEDs
+
+Le montage précédent démontre comment la tension d'alimentation varie en fonction de la position
+du potentiomètre.
+Mais nous l'avons vu, un potentiomètre a (d'une certaine façon) deux résistances, l'une croissant
+quand l'autre décroît.
+Le tableau ci-après présente les valeurs des deux résistances d'un potentiomètre linéaire de 10kΩ
+quand on tourne le bouton.
+À partir des valeurs de ces deux résistances, et connaissant la tension d'alimentation du circuit,
+on peut calculer les tensions aux bornes du potentiomètre.
+
+![Tableau et graphiques montrant comment la résistance et la tension varient aux bornes du potentiomètre quand on tourne le bouton](assets/PotCalc.svg)
+
+Vous pouvez vérifier expérimentalement les valeurs de ce tableau à l'aide d'un multimètre.
+
+Le câblage de deux LEDs exploitant les deux résistances d'un potentiomètre ne présente pas
+de difficulté. Il faut cependant bien prendre garde à la polarité (l'orientation des bornes)
+des LEDs :
+- La `LED1` est branchée à la masse d'un côté (cathode -) et à la borne centrale du potentiomètre 
+de l'autre (anode +).
+- La `LED2` est branchée à la borne centrale du potentiomètre d'un côté (cathode -) et au rail à 3.3 V
+de l'autre (anode +).
+
+![Schéma d'alimentation de 2 LEDs avec tension variable via un potentiomètre](assets/Pot_1_proto_wbg.svg)
+![Platine de prototypage de 2 LEDs avec alimentation variable](assets/Pot_1_sch_wbg.svg)
+
+En position médiane du potentiomètre, la tension d'alimentation des LEDs est la moitié de la
+différence de potentiel entre le rail de masse à 0 V et celui à 3.3 V, c'est-à-dire 1.65 V est
+insuffisante pour allumer l'une ou l'autre des 2 LEDs.
