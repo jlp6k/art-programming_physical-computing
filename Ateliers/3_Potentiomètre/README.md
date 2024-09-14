@@ -147,5 +147,7 @@ interprétée comme étant en réalité égale à 2720 ± 4.925.
 Si l'on rapporte cela à la tension mesurée cela représente
 une erreur de l'ordre de ±0.004 V.
 
+### Mesure de la tension avec le Pico
+
 
 
