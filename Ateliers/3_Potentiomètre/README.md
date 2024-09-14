@@ -101,5 +101,51 @@ de l'autre (anode +).
 ![Platine de prototypage de 2 LEDs avec alimentation variable](assets/Pot_1_sch_wbg.svg)
 
 En position médiane du potentiomètre, la tension d'alimentation des LEDs est la moitié de la
-différence de potentiel entre le rail de masse à 0 V et celui à 3.3 V, c'est-à-dire 1.65 V est
-insuffisante pour allumer l'une ou l'autre des 2 LEDs.
+différence de potentiel entre le rail de masse à 0 V et celui à 3.3 V, c'est-à-dire 1.65 V.
+C'est une tension presque insuffisante pour allumer l'une ou l'autre des 2 LEDs.
+Cela signifie que l'on est très proche de la tension de seuil des deux LEDs (en dessous de cette
+tension, elles ne s'allumeraient pas du tout).
+
+### _Analog to Digital Converter_
+
+Nous allons maintenant utiliser une fonction très utile de beaucoup de microcontrôleurs et
+présente dans le RP2040.
+Il s'agit de l'ADC (_Analog to Digital Converter_), le [convertisseur analogique-numérique](https://fr.wikipedia.org/wiki/Convertisseur_analogique-num%C3%A9rique).
+C'est un composant qui permet de mesurer la tension appliquée à une broche du microcontrôleur
+afin d'obtenir une valeur numérique proportionnelle à cette tension.
+
+![Identification des broches du Raspberry Pi Pico](../../Images/picow-pinout_wbg.svg)
+
+Le microcontrôleur RP2040 possède un convertisseur AD qui peut gérer jusqu'à 5 entrées 
+analogiques dont 4 sont disponibles sur les broches du microcontrôleur.
+La 5e entrée analogique est utilisée par le microcontrôleur pour mesurer sa température 
+de fonctionnement. Elle ne peut être utilisée pour un autre usage.
+Les 4 entrées restantes sont disponibles sur les broches GPIO 26 à 29.
+Néanmoins, sur la carte Raspberry Pi Pico le port GPIO 29 est utilisé pour la mesure de 
+la tension d'entrée `VSYS` et sur le Raspberry Pi Pico W le GPIO 29 est également utilisé
+pour la gestion du module radio WiFi et Bluetooth.
+Le GPIO 29 ne pourra donc pas être utilisé pour nos applications.
+
+Par ailleurs, les entrées analogiques ne peuvent être simultanément employées dans un
+usage numérique (cf. [1_Base/Brochage du Pico](https://github.com/jlp6k/art-programming_physical-computing/blob/main/Ateliers/1_Base/README.md#brochage-du-pico)).
+
+#### Résolution
+
+Le convertisseur analogique-numérique du RP2040 a une résolution de 12 bits.
+Cela signifie qu'il peut produire des valeurs entre 0 et 4095 pour des 
+tensions d'entrée allant de 0 V à 3.3 V.
+Il faut néanmoins modérer cette résolution car, dans les faits, le niveau 
+de bruit du convertisseur, les défauts de la tension de référence, etc. 
+sont tels que la résolution effective 
+([ENOB](https://en.wikipedia.org/wiki/Effective_number_of_bits))
+est plutôt de l'ordre de 8.7 bits 
+(cf. [RP2040 datasheet](https://datasheets.raspberrypi.com/rp2040/rp2040-datasheet.pdf), section 4.9.3).
+
+En pratique, cela signifie que la valeur de 12 bits obtenue après une
+mesure comporte 3.3 bits d'erreur : par exemple la valeur 2720 devrait être
+interprétée comme étant en réalité égale à 2720 ± 4.925.
+Si l'on rapporte cela à la tension mesurée cela représente
+une erreur de l'ordre de ±0.004 V.
+
+
+

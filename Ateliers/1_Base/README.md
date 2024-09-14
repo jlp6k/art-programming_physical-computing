@@ -57,8 +57,9 @@ des broches.
 
 Les broches étiquetées en vert foncé sont celles reliées aux convertisseurs
 analogique-numérique, _analog to digital converter_ ou _ADC_ en anglais.
-Le microcontrôleur RP2040 fournit 4 ADC dont 3 sont respectivement reliées aux
-broches `ADC0`, `ADC1`, `ADC2`.
+Le microcontrôleur RP2040 fournit 4 ADC dont 3 sont respectivement reliés aux
+broches `ADC0`, `ADC1`, `ADC2` (voir aussi 3_Potentiomètre)
+[3_Potentiomètre](https://github.com/jlp6k/art-programming_physical-computing/blob/main/Ateliers/3_Potentiomètre/README.md#analog-to-digital-converter)
 
 Le quatrième convertisseur `ADC3` permet de mesurer la tension d'alimentation
 appliquée à la broche `VSYS` de la carte Raspberry Pi Pico.
