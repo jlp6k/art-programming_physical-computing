@@ -36,7 +36,7 @@ time.sleep(5)
 led_pin.off()
 ```
 
-Le programme suivant fait clignoter la LED du Pico à une fréquence de 1 Hz, c'est-à-dire
+Le programme suivant fait clignoter la LED du Pico à une fréquence de 1Hz, c'est-à-dire
 que le cycle d'allumage et d'extinction de la LED se répète 1 fois par seconde.
 
 ```python
@@ -71,7 +71,7 @@ Son fonctionnement est non linéaire et polarisé (ou asymétrique).
 Ainsi, le sens de branchement d'une diode détermine le fonctionnement du circuit
 dont elle fait partie.
 
-Une diode (LED ou autre) laisse passer le courant si la tension entre l'anode (côté +) et la
+Une diode (LED ou autre) laisse passer le courant si la tension entre l'anode (côté +) et la
 cathode (-) est supérieure à la [_tension de seuil_](https://fr.wikipedia.org/wiki/Diode#Caract%C3%A9ristique)
 de la diode. 
 Dans cette configuration, la diode est dite passante.
@@ -168,9 +168,9 @@ Prenons par exemple une LED dont la tension de fonctionnement est 2 volts et
 le courant de fonctionnement 10 milliampères que nous alimentons à partir du rail
 à 3.3 volts de notre platine de prototypage.
 
-La tension aux bornes de la résistance doit être 3.3 - 2 = 1.3 volts.
-Connaissant la tension (1.3 V) et le courant (10 mA = 0.01 A), la valeur de la résistance
-peut-être calculée par la formule `R = U / I = 1.3 / 0.01 = 130 Ω (ohms)`.
+La tension aux bornes de la résistance doit être 3.3 - 2 = 1.3 volts.
+Connaissant la tension (1.3V) et le courant (10mA = 0.01A), la valeur de la résistance
+peut-être calculée par la formule `R = U / I = 1.3 / 0.01 = 130Ω (ohms)`.
 
 Ainsi il faudra connecter la LED en série avec une résistance _d'au moins_ 130 Ω. 
 Une valeur de résistance supérieure protégera efficacement la LED mais diminuera sa luminosité.
@@ -182,11 +182,11 @@ Cela implique que la puissance de la résistance doit être appropriée à son u
 si ce n'est pas le cas, la résistance brulera.
 Les résistances de 1/8, 1/4 ou 1/2 watt sont communes.
 La puissance effectivement dissipée par la résistance se calcule à
-l'aide de la formule suivante `P = U ✕ I` avec `P`, la puissance exprimée en watts,
+l'aide de la formule suivante `P = U ✕ I` avec `P`, la puissance exprimée en watts,
 `U` en volts et `I` en ampères.
 
-Dans le cas qui nous occupe, la résistance devra dissiper `P = U ✕ I = 1.3 ✕ 0.01 = 0.013 W`,
-une résistance de 1/8 W = 0.125 W suffira donc amplement.
+Dans le cas qui nous occupe, la résistance devra dissiper `P = U ✕ I = 1.3 ✕ 0.01 = 0.013 W`,
+une résistance de 1/8W = 0.125W suffira donc amplement.
 
 Si vous voulez vous épargner l'effort de ces calculs, nombre de pages web les feront
 pour vous. Par exemple : 
@@ -263,9 +263,9 @@ du Raspberry Pi Pico qui ne sert qu'à produire la tension de 3.3 V.
 Le câblage correspond au schéma.
 
 1. L'anode de la LED, la plus longue patte du composant, le côté triangulaire de la diode sur
-le schéma, est connectée à une patte de la résistance de 220 Ω (dont le code de couleur est 
+le schéma, est connectée à une patte de la résistance de 220Ω (dont le code de couleur est 
 rouge rouge marron).
-2. L'autre patte de la résistance est connectée au rail à 3.3 V de la platine de prototypage.
+2. L'autre patte de la résistance est connectée au rail à 3.3V de la platine de prototypage.
 3. La cathode, la patte la plus courte de la LED, la barre de la diode sur le schéma, 
 est connectée à un rail de masse de la platine de prototypage.
 
@@ -273,7 +273,7 @@ est connectée à un rail de masse de la platine de prototypage.
 |----------------------------------------------------------------------------------------|
 
 Le câblage de la LED sur la platine de prototypage utilise deux câbles.
-L'un (orange) va du rail 3.3 V à la résistance, l'autre (noir) va de la LED
+L'un (orange) va du rail 3.3V à la résistance, l'autre (noir) va de la LED
 au rail de masse.
 Sauriez-vous construire le même circuit sans utiliser ces deux câbles 
 (réponse au bas de cette page) ?
@@ -299,14 +299,14 @@ Nous reviendrons à ce sujet plus tard.
 
 Le schéma du circuit est simple. C'est la broche du Raspberry Pi Pico
 que nous avons choisie qui fournit l'énergie pour alimenter la LED.
-Le microcontrôleur RP2040 fonctionnant avec une tension de 3.3 V, la broche
+Le microcontrôleur RP2040 fonctionnant avec une tension de 3.3V, la broche
 produira cette tension quand nous la programmerons à 1 et sera connectée
 à la masse quand nous la programmerons à 0.
 
 À noter cependant que si la broche `3V3(OUT)` peut délivrer 300 mA,
 ce n'est pas le cas des broches GPIO.
-Ces broches délivrent jusqu'à 4 mA mais cela peut être ajusté
-par programmation entre 2 et 12 mA.
+Ces broches délivrent jusqu'à 4mA mais cela peut être ajusté
+par programmation entre 2 et 12mA.
 
 ![Schéma de câblage d'une LED connectée au GPIO 15.svg](assets/LED_1_sch_wbg.svg)
 

@@ -3,9 +3,10 @@
 Dans l'atelier sur les LED, nous avons utilisé des résistances pour
 abaisser la tension.
 
-Dans le schéma ci-dessous, en vertu de la loi d'Ohm, nous pouvons déduire
-que la tension entre A et B est proportionnelle à la tension entre A et C et
-au rapport des valeurs des résistances.
+La représentation schématique ci-dessous de la combinaison de deux résistances
+forme ce que l'on appelle un (pont) [diviseur de tension](https://fr.wikipedia.org/wiki/Diviseur_de_tension). 
+En vertu de la loi d'Ohm, nous pouvons déduire que la tension entre A et B est proportionnelle 
+à la tension entre A et C et au rapport des valeurs des résistances.
 
 
 ```mermaid
@@ -93,9 +94,9 @@ Le câblage de deux LEDs exploitant les deux résistances d'un potentiomètre ne
 de difficulté. Il faut cependant bien prendre garde à la polarité (l'orientation des bornes)
 des LEDs :
 - La `LED1` est branchée à la masse d'un côté (cathode -) et à la borne centrale du potentiomètre 
-de l'autre (anode +).
-- La `LED2` est branchée à la borne centrale du potentiomètre d'un côté (cathode -) et au rail à 3.3 V
-de l'autre (anode +).
+de l'autre (anode +).
+- La `LED2` est branchée à la borne centrale du potentiomètre d'un côté (cathode -) et au rail à 3.3V
+de l'autre (anode +).
 
 ![Schéma d'alimentation de 2 LEDs avec tension variable via un potentiomètre](assets/Pot_1_proto_wbg.svg)
 ![Platine de prototypage de 2 LEDs avec alimentation variable](assets/Pot_1_sch_wbg.svg)
@@ -148,6 +149,124 @@ Si l'on rapporte cela à la tension mesurée cela représente
 une erreur de l'ordre de ±0.004 V.
 
 ### Mesure de la tension avec le Pico
+
+Nous allons mesurer la tension sortant de la borne médiane d'un potentiomètre en utilisant
+l'entrée ADC0 (GPIO 26 / broche 31 de la carte Raspberry Pi Pico ou Pico W).
+
+Le câblage est simple. Comme précédemment nous connectons les deux bornes latérales 
+du potentiomètre, l'une au rail de masse, l'autre au rail à 3.3V.
+La broche médiane du potentiomètre est connectée à l'entrée ADC0 du Pico.
+
+| 🔴⚠️ Ne jamais connecter une broche d'entrée du Raspberry Pi Pico à une tension supérieure à 3.3 V ⚠️ 🔴 |
+|----------------------------------------------------------------------------------------------------------|
+
+![Pot_3_proto_wbg.svg](assets/Pot_3_proto_wbg.svg)
+
+![Pot_3_sch_wbg.svg](assets/Pot_3_sch_wbg.svg)
+
+MicroPython propose d'accéder à l'ADC du RP2040 à l'aide de la classe `ADC`.
+Pour créer un objet/une instance de cette classe, il faut appeler le constructeur de la classe
+en lui passant un objet de la classe `Pin`.
+Ensuite, pour lire la valeur mesurée sur l'entrée correspondante, il suffit d'appeler
+la méthode `read_u16()`.
+Notez que les valeurs renvoyées par la méthode `read_u16()` sont des entiers non signés sur 16 bits,
+cela signifie que les valeurs rendues sont dans l'intervalle 0..65535.
+
+```python
+from machine import ADC, Pin
+from time import sleep
+
+# On crée un objet de classe ADC à partir d'un objet de classe Pin en précisant le numéro
+# de l'entrée utilisée (ici le GPIO 26).
+adc = ADC(Pin(26))
+
+# Dans une boucle infinie,..
+while True:
+    # On lit la valeur mesurée à l'entrée
+    raw_value = adc.read_u16()
+    # et on la convertit en volts.
+    raw_volt_value = 3.3 * raw_value / 65535
+    # Puis on affiche les valeurs sur la console (avec 3 décimales pour les volts).
+    print(f"{raw_value} {raw_volt_value:.3f} V")
+    # On attend 1/4 de seconde avant de recommencer
+    sleep(1/4)
+```
+
+Les valeurs renvoyées par la méthode `read_u16()` sont obtenues à partir des valeurs 
+sur 12 bits produites par l'ADC [décalées de 4 bits vers la gauche](https://fr.wikipedia.org/wiki/Op%C3%A9ration_bit_%C3%A0_bit#D%C3%A9calages_de_bit).
+
+
+```python
+from machine import ADC, Pin
+from time import sleep
+
+# On crée un objet de classe ADC à partir d'un objet de classe Pin en précisant le numéro
+# de l'entrée utilisée (ici le GPIO 26).
+adc = ADC(Pin(26))
+
+# Dans une boucle infinie,..
+while True:
+    # On lit la valeur mesurée à l'entrée
+    raw_value = adc.read_u16()
+    # et on la convertit en volts.
+    raw_volt_value = 3.3 * raw_value / 65535
+
+    # On réduit la valeur lue en la décalant de 8 bits vers la droite
+    # (4 bits pour revenir à des valeurs sur 12 bits + (3.3 bits arrondis à) 4 bits pour l'erreur).
+    reduced_value = raw_value >> 8
+    reduced_volt_value = 3.3 * reduced_value / (65535 >> 8)
+
+    # Puis on affiche les valeurs sur la console (avec 3 décimales pour les volts).
+    print(f"{raw_value} {raw_volt_value:5.3f} V\t{reduced_value} {reduced_volt_value:5.3f} V")
+    # On attend 1/4 de seconde avant de recommencer
+    sleep(1/4)
+```
+
+Ce programme produit un affichage sur la console du genre de celui ci-dessous lorsque le bouton
+du potentiomètre est tourné à fond à gauche.
+Chaque exécution produit un résultat légèrement différent car les variations de valeurs mesurées
+sont essentiellement aléatoires.
+
+```
+>>> %Run -c $EDITOR_CONTENT
+
+  MPY: soft reboot
+  288 0.015 V	1 0.013 V
+  256 0.013 V	1 0.013 V
+  272 0.014 V	1 0.013 V
+  208 0.010 V	0 0.000 V
+  224 0.011 V	0 0.000 V
+  288 0.015 V	1 0.013 V
+  272 0.014 V	1 0.013 V
+  224 0.011 V	0 0.000 V
+```
+
+Nous notons malheureusement que, les valeurs de la colonne de droite fluctuent,
+même divisées de moitié par rapport aux valeurs de la colonne de gauche. 
+
+### Choix de la résistance du potentiomètre
+
+Les potentiomètres que nous utilisons ont une résistance de 10kΩ.
+Bien que ce soit plutôt le rapport des résistances aux extrémités du
+potentiomètre qui nous intéresse pour former un pont diviseur de tension,
+la valeur totale de la résistance du potentiomètre n'est pas choisie au hasard.
+
+Les bornes extrèmes du potentiomètre étant reliées aux rails 0V et 3.3V, le courant qui traverse 
+le potentiomètre est `I = U/R = 3.3 / 10000 = 330µA` (ou 1.089mW).
+Pour notre usage, ce courant est négligeable, une pile AA 1.5V alcaline pourrait le fournir 
+pendant au moins 150 jours.
+
+En revanche, si nous utilisions des potentiomètres de 100Ω, le courant consommé par cette partie
+de notre circuit serait de 33mA (ou 108.9mW), ce qui est inutilement élevé puisque nous avons
+seulement besoin de mesurer la tension et non alimenter un dispositif.
+
+Inversement, il n'est pas non plus toujours opportun d'augmenter la résistance du potentiomètre
+pour diminuer la consommation du circuit.
+En effet, certains convertisseurs analogique-numérique fonctionnent à l'aide d'un circuit
+capacitif, c'est par exemple le cas des cartes Arduino qui pourraient ne pas fonctionner de façon
+optimale pour mesurer la tension issue d'un potentiomètre de plus de 10kΩ, le courant 
+traversant le convertisseur serait insuffisant.
+
 
 
 
