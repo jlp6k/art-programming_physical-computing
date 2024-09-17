@@ -179,6 +179,8 @@ from time import sleep
 # On crée un objet de classe ADC à partir d'un objet de classe Pin en précisant le numéro
 # de l'entrée utilisée (ici le GPIO 26).
 adc = ADC(Pin(26))
+# Alternativement, il est possible de passer le numéro de l'ADC à la place du numéro du GPIO.
+# Ainsi, ADC(0) est équivalent à ADC(Pin(26)).
 
 # Dans une boucle infinie,..
 while True:
@@ -193,8 +195,10 @@ while True:
 ```
 
 Les valeurs renvoyées par la méthode `read_u16()` sont obtenues à partir des valeurs 
-sur 12 bits produites par l'ADC [décalées de 4 bits vers la gauche](https://fr.wikipedia.org/wiki/Op%C3%A9ration_bit_%C3%A0_bit#D%C3%A9calages_de_bit).
-
+sur 12 bits produites par l'ADC [décalées de 4 bits vers la gauche](https://fr.wikipedia.org/wiki/Op%C3%A9ration_bit_%C3%A0_bit#D%C3%A9calages_de_bit)
+(en réalité, c'est un peu plus complexe).
+Si cela vous intéresse vous pouvez aller voir le code source en C de la fonction `adc_config_and_read_u16` de la 
+[bibliothèque `machine_adc.c` pour le microcontrôleur RP2040](https://github.com/micropython/micropython/blob/master/ports/rp2/machine_adc.c).
 
 ```python
 from machine import ADC, Pin
@@ -242,7 +246,62 @@ sont essentiellement aléatoires.
 ```
 
 Nous notons malheureusement que, les valeurs de la colonne de droite fluctuent,
-même divisées de moitié par rapport aux valeurs de la colonne de gauche. 
+même divisées de moitié par rapport aux valeurs de la colonne de gauche.
+
+Une technique pour lisser les variations de l'ADC consiste à faire la
+moyenne des dernières mesures.
+C'est ce que propose la classe `AveragingADC` du module `averaging_adc`.
+
+```python
+from time import sleep
+from averaging_adc import AveragingADC
+
+# On crée un objet de classe AveragingADC.
+# Par défaut, la moyenne est calculée sur les 16 dernières mesures...
+# Dans cet exemple, nous ferons la moyenne sur les 128 dernières mesures.
+adc = AveragingADC(0, average_size=128)
+
+# Dans une boucle infinie...
+while True:
+    # On affiche les résultats de mesures sur la console (avec 3 décimales pour les volts).
+    # Les méthodes read_u16() et volts() renvoient la moyenne des mesures tandis que les méthodes
+    # raw_u16() et raw_volts() renvoient la mesure instantanée.
+    print(f"{adc.raw_u16()} {adc.raw_volts():5.3f} V\t{adc.read_u16()} {adc.volts():5.3f} V")
+    # On attend 1/4 de seconde avant de recommencer
+    sleep(1 / 4)
+```
+
+Le paramètre `average_size`du constructeur de la classe `AveragingADC` peut être un entier 
+positif quelconque (à concurrence de la mémoire disponible).
+Cependant, le lissage produit à pour effet de ralentir  les variations puisqu'il faut 
+`average_size` nouvelles mesures pour changer la moyenne.
+
+Ce phénomène peut être minimisé en multipliant le nombre de mesures (par rapport aux mesures
+dont on a réellement besoin) et en en faisant la moyenne.
+Cette technique s'appelle _oversampling_.
+Le programme suivant illustre sa mise en œuvre à l'aide de la classe `AveragingADC`.
+
+```python
+from time import sleep
+from averaging_adc import AveragingADC
+
+# On crée un objet de classe AveragingADC.
+# Par défaut, la moyenne est calculée sur les 16 dernières mesures...
+# Dans cet exemple, nous ferons la moyenne sur les 128 dernières mesures.
+adc = AveragingADC(0, average_size=128)
+
+# Dans une boucle infinie...
+while True:
+    # On affiche les résultats de mesures sur la console (avec 3 décimales pour les volts).
+    # Les méthodes read_u16() et volts() renvoient la moyenne des mesures tandis que les méthodes
+    # raw_u16() et raw_volts() renvoient la mesure instantanée.
+    print(f"{adc.raw_u16()} {adc.raw_volts():5.3f} V\t{adc.read_u16()} {adc.volts():5.3f} V")
+    # On attend 1/4 de seconde avant de recommencer... Mais pendant ce temps,
+    # le programme fait 100 mesures.
+    for _ in range(100):
+        adc.raw_u16()
+        sleep(1 / 400)
+```
 
 ### Choix de la résistance du potentiomètre
 
