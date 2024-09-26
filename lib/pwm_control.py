@@ -68,16 +68,33 @@ class PWMControl:
         self._duration_ms = int(duration * 1000)
         self._initial_duty = self._gpio_pwm.duty_u16()
         self._goal_duty = int(width * 65535)
+
+        if self._duration_ms == 0:
+            self._gpio_pwm.duty_u16(self._goal_duty)
         
         # print("at", self._initial_ticks, "width will change from", self._initial_duty, "to", self._goal_duty, "in", self._duration_ms, "ms")
 
-    # TODO: add toggle()
-
     def get_width(self):
-        """
+        """The get_width() returns the current width of the pulse.
         """
         return self._gpio_pwm.duty_u16() / 65535.0
         
+    def toggle(self, duration=0.0):
+        """The toggle() method changes the desired width of the pulses.
+        The new desired width is equal to 1 - the current desired width.
+
+        :param duration: float, durée de la mise à jour en secondes. Si duration=0 alors la mise
+        à jour est instantanée.
+        :return: None
+        """
+        self.set_width(1.0 - self.get_goal(), duration=duration)
+
+    def get_goal(self):
+        """
+        :return: float, the current desired width.
+        """
+        return self._goal_duty / 65535.0
+
     def _pulse(self, timer):
         # La methode _pulse est appelée de façon répétée par un timer (c'est une fonction callback).
         # Elle prend (obligatoirement) un paramètre qui recevra le timer qui l'appelle.

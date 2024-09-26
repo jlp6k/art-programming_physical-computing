@@ -334,5 +334,204 @@ l'aide d'un potentiomètre.
 - La LED sera connectée au GPIO 19.
 - Le potentiomètre sera connecté au GPIO 26.
 
+```python
+from time import sleep
+from averaging_adc import AveragingADC
+from pwm_control import PWMControl
+
+# On crée un objet de classe AveragingADC.
+# Par défaut, la moyenne est calculée sur les 16 dernières mesures...
+# Dans cet exemple, nous ferons la moyenne sur les 128 dernières mesures.
+adc = AveragingADC(0, average_size=128)
+
+# La LED est connectée sur la broche 20 qui correspond au GPIO 15.
+led_gpio = 15
+
+# On crée un objet de classe PWMControl pour gérer le clignotement. On lui indique
+# quelle broche il doit contrôler.
+led = PWMControl(led_gpio)
+
+# Dans une boucle infinie...
+while True:
+    # On calcule une valeur comprise entre 0 (quand adc.read_u16() renvoie 0) 
+    # et 1 (quand adc.read_u16() renvoie 65535).
+    # La période du cycle de clignotement de la LED varie donc de 0 à 2 secondes.
+    half_period_duration = adc.read_u16() / 65535
+    # On affiche la durée de la demi période
+    print(half_period_duration)
+    # On bascule l'état de la LED
+    led.toggle()
+    # Puis le programme s'interrompt pour la durée de la demi période.
+    sleep(half_period_duration)
+```
+
+Ce programme fonctionne mais il manque de réactivité quand la période est longue.
+Pourquoi ?
+
+Ce programme lisse les valeurs mesurées à la sortie du potentiomètre en faisant la moyenne
+des 128 dernières valeurs lues... Et il lit une nouvelle valeur à chaque appel de
+la méthode `read_u16()`.
+
+Quand la valeur lue est proche de 0 le délai entre deux lectures est court
+(comme le délai entre deux changement d'état de la LED).
+En revanche, quand la valeur renvoyée par `read_u16()` est proche du maximum,
+le délai entre deux lectures est long (jusqu'à 1 seconde) de même que l'évolution
+des valeurs renvoyées.
+Il faudra donc près de 2 minutes pour passer d'un clignotement lent à
+un clignotement rapide.
+
+Sauriez-vous améliorer le temps de réponse du programme à un changement
+de la position du potentiomètre en ne modifiant qu'une seule ligne du programme ?
+(Solution en bas de page.)
+
+Une bonne solution pour résoudre le problème de réactivité du contrôle de la LED
+à partir du potentiomètre consiste à lire l'ADC indépendamment de la mise à jour de
+l'état de la LED.
+
+Pour cela nous allons utiliser les fonctions `ticks_ms()` et `ticks_diff()` du module
+`time` (cf. [documentation de MicroPython](https://docs.micropython.org/en/latest/library/time.html#time.ticks_ms))
+
+La fonction `ticks_ms()` renvoie une valeur correspondant au nombre de millisecondes
+depuis un moment fixe dans le passé (par exemple le démarrage du RP2040).
+La fonction `ticks_diff()` permet de calculer le temps écoulé entre deux valeurs renvoyées
+par `ticks_ms()`.
+
+Par exemple, si on exécute le programme suivant (en le collant dans la console par exemple),
+il affichera deux valeurs entières correspondant à `t0` et `t1` puis 1000, le temps écoulé
+entre `t0` et `t1`.
+
+```python
+from time import ticks_ms, ticks_diff, sleep
+
+t0 = ticks_ms()
+sleep(1)  # on dort pendant 1 seconde
+t1 = ticks_ms()
+print(t0, t1, ticks_diff(t1, t0))
+```
+
+Nous pouvons donc exploiter ces fonctions pour déterminer quand changer l'état de la LED
+
+```python
+from time import sleep_ms, ticks_ms, ticks_diff
+from averaging_adc import AveragingADC
+from pwm_control import PWMControl
+
+# On crée un objet de classe AveragingADC.
+# Par défaut, la moyenne est calculée sur les 16 dernières mesures...
+# Dans cet exemple, nous ferons la moyenne sur les 128 dernières mesures.
+adc = AveragingADC(0, average_size=128)
+
+# La LED est connectée sur la broche 20 qui correspond au GPIO 15.
+led_gpio = 15
+
+# On crée un objet de classe PWMControl pour gérer le clignotement. On lui indique
+# quelle broche il doit contrôler.
+led = PWMControl(led_gpio)
+
+# On note le moment du début de la première demi période.
+state_start_ticks = ticks_ms()
+# Dans une boucle infinie...
+while True:
+    # On calcule une valeur comprise entre 0 (quand adc.read_u16() renvoie 0) 
+    # et 1 (quand adc.read_u16() renvoie 65535).
+    # La période du cycle de clignotement de la LED varie donc de 0 à 2000 millisecondes.
+    half_period_duration = adc.read_u16() * 1000 / 65535
+    
+    # On calcule le temps (en millisecondes) écoulé depuis le début de
+    # la demi période courante. Si le temps écoulé depuis le début de la demi période
+    # est supérieur (on peut effectivement avoir dépassé la durée souhaitée) ou égal 
+    # à la durée de la demi période...
+    if ticks_diff(ticks_ms(), state_start_ticks) >= half_period_duration:
+        # Alors on bascule l'état de la LED
+        led.toggle()
+        # Et on note le moment du début de cette nouvelle demi période.
+        state_start_ticks = ticks_ms()
+        # Et on affiche la durée de la demi période pour information
+        print(half_period_duration)
+    
+    # Puis le programme s'interrompt pendant 10 millisecondes.
+    sleep_ms(10)
+```
+
+Si on fait une mesure du potentiomètre toutes les 10ms (la durée approximative d'un tour
+de la boucle, cela fait 100 mesures par seconde ce qui est probablement assez pour notre
+usage.
+Toutefois, si on prend en compte que la valeur renvoyée par notre instance de
+`AveragingADC` est calculée sur une moyenne de 128 valeurs, alors il faudra environ
+1.28 secondes pour passer atteindre la valeur souhaitée lorsqu'on tourne le bouton du
+potentiomètre.
+
+Dans les programmes précédents, nous changeons l'état de la LED de façon instantanée.
+Cependant, la classe `PWMControl` permet de faire varier progressivement l'intensité
+lumineuse apparente de la LED.
+Sauriez-vous améliorer le programme précédent afin que le clignotement de la LED soit
+progressif, c'est-à-dire qu'elle s'allume progressivement et qu'elle s'éteigne de même,
+tandis que l'utilisateur réglera la vitesse à laquelle cela se produit avec
+le potentiomètre ?
+(Solution en bas de page.)
 
 
+### Solutions des questions
+
+Voici comment modifier (très simplement) le programme de contrôle de la vitesse de
+clignotement d'une LED afin que la réaction au réglage du potentiomètre soit plus rapide.
+
+Remplacer la ligne :
+
+```python
+adc = AveragingADC(0, average_size=128)
+```
+
+par
+
+```python
+adc = AveragingADC(0, average_size=1)
+```
+
+
+```python
+from time import sleep_ms, ticks_ms, ticks_diff
+from averaging_adc import AveragingADC
+from pwm_control import PWMControl
+
+# On crée un objet de classe AveragingADC.
+# Par défaut, la moyenne est calculée sur les 16 dernières mesures...
+# Dans cet exemple, nous ferons la moyenne sur les 128 dernières mesures.
+adc = AveragingADC(0, average_size=128)
+
+# La LED est connectée sur la broche 20 qui correspond au GPIO 15.
+led_gpio = 15
+
+# On crée un objet de classe PWMControl pour gérer le clignotement. On lui indique
+# quelle broche il doit contrôler.
+# Il est nécessaire d'augmenter la fréquence à laquelle l'intensité de la LED est mise
+# à jour sinon lorsque la LED clignote rapidement les variations n'auront pas le temps
+# de s'effectuer.
+led = PWMControl(led_gpio, update_rate=150)
+
+# On note le moment du début de la première demi période.
+state_start_ticks = ticks_ms()
+# Dans une boucle infinie...
+while True:
+    # On calcule une valeur comprise entre 0 (quand adc.read_u16() renvoie 0) 
+    # et 1 (quand adc.read_u16() renvoie 65535).
+    # La période du cycle de clignotement de la LED varie donc de 0 à 2000 millisecondes.
+    half_period_duration = adc.read_u16() * 1000 / 65535
+    
+    # On calcule le temps (en millisecondes) écoulé depuis le début de
+    # la demi période courante. Si le temps écoulé depuis le début de la demi période
+    # est supérieur (on peut effectivement avoir dépassé la durée souhaitée) ou égal 
+    # à la durée de la demi période...
+    if ticks_diff(ticks_ms(), state_start_ticks) >= half_period_duration:
+        # Alors on bascule l'état de la LED, en indiquant en combien de temps
+        # cela doit se produire = la durée de la demi période exprimé en secondes.
+        led.toggle(duration=half_period_duration/1000)
+        # Et on note le moment du début de cette nouvelle demi période.
+        state_start_ticks = ticks_ms()
+        # Pour information, on affiche la durée de la demi période ainsi que la fréquence
+        # du clignotement.
+        print(f"{half_period_duration:.3f}ms {500/half_period_duration:.3f}Hz")
+    
+    # Puis le programme s'interrompt pendant 10 millisecondes.
+    sleep_ms(10)
+```
