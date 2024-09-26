@@ -326,6 +326,13 @@ capacitif, c'est par exemple le cas des cartes Arduino qui pourraient ne pas fon
 optimale pour mesurer la tension issue d'un potentiomètre de plus de 10kΩ, le courant 
 traversant le convertisseur serait insuffisant.
 
+### Régler le clignotement d'une LED
+
+Nous allons maintenant écrire un programme qui fera clignoter une LED à une fréquence réglée à
+l'aide d'un potentiomètre.
+
+- La LED sera connectée au GPIO 19.
+- Le potentiomètre sera connecté au GPIO 26.
 
 
 
