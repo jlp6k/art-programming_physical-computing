@@ -30,6 +30,14 @@ Dans le monde DIY, on rencontre fréquemment les moteurs 28BYJ-48 pilotés à l'
 circuit ULN2003. C'est une combinaison de moteur et de circuit de pilotage peu coûteuse
 (de l'ordre de quelques euros).
 
+Le moteur 28BYJ-48 compte 64 pas par tour et il est équipé d'un jeu d'engrenage réducteur
+1÷64. Cela porte le nombre de pas par tour à 4096. Il existe une version alimentée en 5 volts
+et une autre en 12 volts (et l'une ne remplace évidemment pas l'autre).
+
+Le circuit ULN2003 est relativement simple. C'est seulement une interface entre le microcontrôleur,
+dont les broches ne peuvent commander que des composants de faible puissance, et le moteur
+qui consomme un courant plus important que celui que broches peuvent fournir.
+
 Un autre circuit fréquemment utilisé est l'Allegro A4988 popularisé par le fabricant de
 matériel de hobby [Pololu](https://www.pololu.com/product/1182).
 Il permet de piloter des moteurs pas-à-pas en utilisant seulement 2 ports gpio (au minimum)
@@ -42,9 +50,24 @@ Pour notre part, nous utiliserons le couple 28BYJ-48 + ULN2003.
 
 ### Positionnement d'un moteur pas-à-pas
 
-Nous allons écrire un programme permettant de positionner un moteur pas-à-pas en fonction
-de la position d'un potentiomètre.
+Nous allons commander la position d'un moteur pas-à-pas en fonction de la position
+d'un potentiomètre.
 
+Le moteur n'est pas directement connecté au microcontrôleur, il est connecté au _driver_
+(circuit intégré de pilotage) qui lui-même connecté au Pico.
+Le moteur est alimenté par le rail à 5 volts (venant du port USB).
+
+![Prototype de circuit de contrôle d'un moteur pas-à-pas 28BYJ-48 à l'aide d'un Raspberry Pico et d'un driver ULN2003](assets%2FStepper_0_proto_wbg.svg)
+
+Le potentiomètre est connecté au rail de masse, au rail à 3.3 volts et à l'entrée ADC0
+(gpio 26, broche 31) du Pico.
+
+Le code met en œuvre la classe `ULN2003` du module `stepper_control`.
+Cette classe illustre bien l'idée qu'une classe est l'abstraction (ou le modèle informatique)
+d'un objet ou de son fonctionnement.
+L'instanciation de la classe `ULN2003` permet de décrire comment le _driver_ est connecté 
+au Pico et permet de piloter à l'aide de la méthode `step()` le moteur qui y est attaché
+(_step_ est la traduction de _pas_ en anglais).
 
 
 ```python

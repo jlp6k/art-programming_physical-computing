@@ -207,7 +207,7 @@ if __name__ == "__main__":
         # stepper_driver = ULN2003(13, 12, 11, 10, delay_us=1900)
 
         # Number of steps to do below.
-        steps = 0
+        steps = 500
         # Move in a direction in full steps then backward.
         # Doing full steps is the default but it could be changed.
         stepper_driver.step(steps, 1)
