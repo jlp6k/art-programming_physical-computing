@@ -1,5 +1,5 @@
 from machine import Pin
-from time import sleep_us
+from time import sleep_us, ticks_us, ticks_diff
 
 
 class StepperCommand:
@@ -16,7 +16,7 @@ class StepperCommand:
             self._direction = direction
             self._full_steps = full_steps
 
-            self._last_step_time = 0
+            self._last_call_time = 0
             self._delay_before_next_step = 0
             self._delay_us = stepper.delay_us
 
@@ -35,8 +35,8 @@ class StepperCommand:
             self.delay_us = total_duration // self._count
 
         def __call__(self, current_time):
-            self._delay_before_next_step -= current_time - self._last_step_time
-            self._last_step_time = current_time
+            self._delay_before_next_step -= current_time - self._last_call_time
+            self._last_call_time = current_time
             if self._delay_before_next_step <= 0:
                 # Move the stepper motor for one step without waiting for the motor to rest
                 self._stepper.step(1, self._direction, self._full_steps, no_delay=True)
@@ -87,7 +87,7 @@ class StepperCommand:
             # Each stepper needs some rest time to set its position but moving 2 steppers in parallel
             # only need 1 rest.
             # s = step
-            # _ = mandatory rest (may be different for each stepper motor)
+            # _ = mandatory rest (could be different for each stepper motor)
             # . = pause
             # There are various ways to spread the motor steps around the total duration,
             # try this one.
@@ -97,12 +97,13 @@ class StepperCommand:
             for s in self._commands:
                 s.spread(total_duration)
 
-            t = 0
-            while t < total_duration:
+            tick_start = ticks_us()
+            while True:
+                elapsed = ticks_diff(ticks_us(), tick_start)
                 for s in self._commands:
-                    s(t)
-                sleep_us(time_grain)
-                t += time_grain
+                    s(elapsed)
+                if elapsed >= total_duration:
+                    break
 
             # Once the moves are executed, clear the prepared commands.
             self._commands.clear()
