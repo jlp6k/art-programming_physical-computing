@@ -54,6 +54,9 @@ class AveragingADC:
         It is provided for compatibility with the ADC read_u16() method as it has the same signature.
         """
         return int(self.read())
+    
+    def read_unit(self):
+        return self.read() / 65535
 
     @staticmethod
     def _value_to_volts(value):
