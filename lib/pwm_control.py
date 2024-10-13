@@ -130,6 +130,8 @@ class PWMControl:
 if __name__ == "__main__":
     # Le programme est inclus dans un gestionnaire d'exception afin de s'arrêter proprement
     # s'il est interrompu.
+    from machine import reset
+
     try:
         # Le module random va être utilisé pour faire varier la vitesse de clignotement
         # d'une LED.
@@ -164,5 +166,5 @@ if __name__ == "__main__":
         pwm_ctrl.deinit()
             
     except KeyboardInterrupt:
-        # L'utilisateur à interrompu le programme, on réinitialise la carte.
-        machine.reset()
+        # L'utilisateur a interrompu le programme, on réinitialise la carte.
+        reset()

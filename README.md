@@ -34,7 +34,7 @@ Le contenu de ce dépôt ne fait qu'effleurer la programmation en Micropython
 sur le Raspberry Pi Pico et le _Physical Computing_ en général.
 Il reste une infinité d'autres sujets à documenter.
 
-Tout le monde est invité à contribuer.
+Tout le monde est donc invité à contribuer.
 Si vous trouvez une erreur, si vous avez des idées pour de nouvelles fonctionnalités,
 si vous avez écrit un nouveau module, si vous voulez discuter d'un sujet en relation, ...
 Ouvrez une [_issue_](https://github.com/jlp6k/art-programming_physical-computing/issues)

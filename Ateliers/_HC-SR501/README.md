@@ -95,21 +95,37 @@ Pour mettre en œuvre ce style de programmation, il faut écrire une fonction ap
 routine d'interruption (_Interrupt Service Routine_ en anglais ou ISR).
 
 La routine sera automatiquement appelée lorsque l'état de la broche changera.
+Cette fonction doit impérativement être écrite de façon à s'exécuter rapidement.
 
 Pour simplifier la mise en œuvre nous emploierons la classe `Monitor` du module `monitor`.
 
 ```python
+from time import sleep
 from monitor import Monitor
 
-# the take_state() function will take care of the state of the pin
 def isr(state):
-    # le paramètre 
+    # le paramètre state aura la valeur de l'état de la broche surveillée
     # on affiche un message
     print("L'état à changé, il est à", state)
 
-    
+# On crée une instance de la classe Monitor pour surveiller le GPIO 9
+# et on lui passe la fonction qui sera appelée au moment d'un changement 
+# d'état de cette broche
+monitor = Monitor(9, on_change=isr)
 
+# Le fonctionnement du programme est asynchrone, pendant que la broche est surveillée
+# on peut effectuer d'autres opérations.
+# Le programme va fonctionner pendant 20 secondes en affichant des valeurs croissantes.
+for t in range(20):
+    print("Hello World!", t)
+    sleep(1)
 
+# Bien que le programme soit sur le point de se terminer et Python de retrourner
+# au REPL, la routine d'interruption continuera à être appelée à cahque changement de
+# l'état du GPIO 9.
+# Pour interrompre le fonctionnement de la routine, il faut appeler la methode deinit()
+# de l'objet monitor.
+monitor.deinit()
 ```
 
 
