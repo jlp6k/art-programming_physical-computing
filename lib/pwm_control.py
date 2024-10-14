@@ -174,6 +174,16 @@ class Servo:
         timing_us = int(start_timing_us)
         pwm = PWM(Pin(servo_gpio, Pin.OUT), freq=pwm_freq)
 
+        print("""Usually on a 180 degrees servo:
+1000 μs corresponds to the 0 degree position
+1500 μs corresponds to the 90 degrees position
+2000 μs corresponds to the 180 degree position
+
+Search for the minima and maxima of the timing by decreasing/increasing
+the pulse length. When the servo doesn't react anymore to a timing change,
+go back a little to a safe value.
+""")
+
         # On entre dans une boucle dont le programme ne sortira que lorsque la variable in_loop
         # passera de True à False
         in_loop = True
@@ -184,7 +194,7 @@ class Servo:
             pwm.duty_u16(duty_u16)
 
             # Affiche le menu et attend les commandes entrées par l'utilisateur
-            command = input(f"""{timing_us}μs {duty_u16}/6535335
+            command = input(f"""{timing_us} μs {duty_u16}/65535
 Enter a number to set the timing or
 + to increase pulse timing by 1 μs,
 - to decrease pulse timing by 1 μs,
