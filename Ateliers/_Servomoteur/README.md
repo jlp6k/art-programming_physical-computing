@@ -215,4 +215,5 @@ En particulier, elle indique les valeurs minimales et maximales des durées d'im
 habituellement aux positions à 0 et 180 degrés.
 Néanmoins, le servomoteur SG90 que nous utilisons dans cet atelier à des valeurs mini/maxi différentes.
 Sa fiche technique indique que la durée d'impulsion minimale est de 500 μs et la durée maximale
-est de 2400 μs.
+est de 2400 μs (1 milliseconde [ms] = 1000 microseconde [μs]).
+
