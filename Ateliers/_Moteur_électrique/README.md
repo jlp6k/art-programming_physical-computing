@@ -13,7 +13,7 @@ du chauffage de l'habitacle ou celui du refroidissement du moteur, mais c'est un
 propulsion du véhicule).
 
 La vidéo ci-dessous illustre le principe de fonctionnement du moteur à courant continu à balais.
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/A3b3Km5KVXs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
-</iframe>
+
+[![Image de la vidéo Youtube : Moteur DC (courant continu), comment ça marche?](http://img.youtube.com/vi/A3b3Km5KVXs/0.jpg)](http://www.youtube.com/watch?v=A3b3Km5KVXs "Moteur DC (courant continu), comment ça marche?")
 (n'hésitez pas à suggérer une meilleure vidéo !)
 
