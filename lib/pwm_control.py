@@ -131,6 +131,11 @@ class Servo:
                  pwm_freq=50, update_rate=50):
         """La méthode d'initialisation de la classe Servo n'a qu'un seul paramètre obligatoire,
         le numéro de la broche du micro-contrôleur à laquelle est relié le servomoteur à piloter.
+
+        Please note that the angle values are processed using an arbitrary unit/scale.
+        Hence the angle_range could be (0, 180), (-90, 90), (0, 1), (-1, 1) or any pair of
+        values that suits your application.
+
         Les paramètres sont :
         gpio (int): le numéro de la broche à contrôler.
         timing_range (int, int): les largeurs minimales et maximales (en microsecondes) des impulsions
@@ -182,7 +187,23 @@ class Servo:
 Search for the minima and maxima of the timing by decreasing/increasing
 the pulse length. When the servo doesn't react anymore to a timing change,
 go back a little to a safe value.
-""")
+
+Take note of the timing values as well as the angles the servo arm has 
+reached at the two extreme positions. Then use them on the timing_range
+and angle_range parameters when instantiating a Servo class object.""")
+
+        usage = """
+Enter a number to set the timing or
++ to increase pulse timing by 1 μs,
+- to decrease pulse timing by 1 μs,
+* to increase pulse timing by 10 μs,
+/ to decrease pulse timing by 10 μs.
+Enter E or e to exit the calibration fonction.
+? prints this help.
+Other characters are ignored.
+"""
+
+        print(usage)
 
         # On entre dans une boucle dont le programme ne sortira que lorsque la variable in_loop
         # passera de True à False
@@ -193,16 +214,8 @@ go back a little to a safe value.
             # Et on fait trourner le servo en appliquant la valeur de PWM
             pwm.duty_u16(duty_u16)
 
-            # Affiche le menu et attend les commandes entrées par l'utilisateur
             command = input(f"""{timing_us} μs {duty_u16}/65535
-Enter a number to set the timing or
-+ to increase pulse timing by 1 μs,
-- to decrease pulse timing by 1 μs,
-* to increase pulse timing by 10 μs,
-/ to decrease pulse timing by 10 μs.
-Enter E or e to exit the calibration fonction.
-Other characters are ignored.
-Enter command or commands: """)
+Enter command or commands (? prints help): """)
 
             # La chaîne de caractères command contient les caractères qu'il faut analyser pour effectuer
             # les actions correspondantes.
@@ -224,6 +237,8 @@ Enter command or commands: """)
                         timing_us -= 10
                     elif c.lower() == "e":
                         in_loop = False
+                    elif c == "?":
+                        print(usage)
 
             finally:
                 # Qu'une exception se soit produite ou non, on s'assure que timing_us est toujours positif.

@@ -137,10 +137,10 @@ servo.start()
 # On fixe le temps de pause entre chaque mouvement.
 t = 1  # 1 seconde
 while True:
-    # On positionne le servo à 0 degré.
+    # On positionne le my_sg90 à 0 degré.
     servo.set_angle(0)
     sleep(t)  # Pause
-    # On positionne le servo à 180 degrés.
+    # On positionne le my_sg90 à 180 degrés.
     servo.set_angle(180)
     sleep(t)  # Pause
 ```
@@ -190,30 +190,102 @@ while True:
     servo.set_angle(target_angle)
     
     # 20 lectures du potentiomètre par seconde et mises à jour de la position
-    # du servo devraient suffire. On peut donc suspendre un instant l'exécution du programme.
+    # du my_sg90 devraient suffire. On peut donc suspendre un instant l'exécution du programme.
     sleep(1/20)
 ```
+
+### Étalonnage
 
 Lorsqu'on tourne le bouton d'une extrémité de sa course à l'autre, le servomoteur est supposé
 tourner de 180 degrés.
 Mais tous les servos ne sont pas exactement identiques et il peut arriver que l'angle entre les deux
 positions extrêmes fasse un peu plus ou un peu moins de 180 degrés.
-Pour corriger cela, le classe `Servo` possède la méthode de classe (une méthode que l'on peut appeler
-sans avoir préalablement besoin d'instancier un objet de cette classe) `timing_calibration_helper()`.
+
+Pour corriger cela, il faut faire un étalonnage du servomoteur (_calibration_ en anglais) afin connaître
+les caractéristiques exactes de sa course.
+
+La classe `Servo` possède la méthode de classe (une méthode que l'on peut appeler
+sans devoir préalablement instancier un objet de cette classe) `timing_calibration_helper()` qui permet
+d'étalonner le servo.
 Le mini-programme ci-dessous montre comment utiliser cette méthode.
 
 ```python
 from pwm_control import Servo
 
 # On va chercher les durées d'implusion permettant de tourner de 180 degrés.
-# Le servo à calibrer est piloté par le GPIO 8 / broche 11 du Raspberry Pi Pico.
+# Le my_sg90 à calibrer est piloté par le GPIO 8 / broche 11 du Raspberry Pi Pico.
 Servo.timing_calibration_helper(8)
 ```
 
 La méthode affiche sur la console comment elle doit être utilisée.
 En particulier, elle indique les valeurs minimales et maximales des durées d'impulsion correspondant
-habituellement aux positions à 0 et 180 degrés.
+généralement aux positions à 0 et 180 degrés.
 Néanmoins, le servomoteur SG90 que nous utilisons dans cet atelier à des valeurs mini/maxi différentes.
 Sa fiche technique indique que la durée d'impulsion minimale est de 500 μs et la durée maximale
-est de 2400 μs (1 milliseconde [ms] = 1000 microseconde [μs]).
+est de 2400 μs (1000 microsecondes [μs] = 1 milliseconde [ms]).
+Ces valeurs peuvent parfois être dépassées mais on prendra garde de rester dans des limites acceptables
+pour le servomoteur. On sera notamment attentif à tout bruit de fonctionnement anormal.
 
+En tapant les valeurs des durées d'impulsion (en microsecondes), ou en tapant les caractères + ou - pour
+augmenter ou diminuer la durée des impulsions d'une microseconde, ou en tapant les caractères * ou / pour
+augmenter ou diminuer la durée des impulsions de dix microsecondes.
+
+Une fois les durées d'impulsion mini/maxi découverte, il peut être utile de chercher les durées correspondant
+aux positions 0, 90 et 180 degrés.
+L'ensemble de ces informations permettra d'instancier la classe `Servo` en précisant les paramètres
+`timing_range` et `angle_range` afin d'obtenir un fonctionnement précis du servomoteur.
+
+```python
+from time import sleep
+from pwm_control import Servo
+
+# On crée une instance de la classe Servo pour contrôler mon servo SG90
+# dont j'ai préalablement établi les durrées d'impulsion correspondant 
+# au position 0 et 180 degrés.
+# Le SG90 est connecté au GPIO 8.
+my_sg90 = Servo(8, timing_range=(500, 2480), angle_range=(0, 180))
+# Puis on démarre le contrôle.
+my_sg90.start()
+
+while True:
+    # Le servo va aller aux positions 0, 90, 180 puis retour à la position 90.
+    for angle in (0, 90, 180, 90):
+        # Le servo se déplace
+        my_sg90.set_angle(angle)
+        # Le programme attend une seconde.
+        sleep(1)
+    # Un tour de manège entre les différentes positions est terminé,
+    # on recommence.
+```
+
+Notez que les valeurs des angles sont ici indiquées en degrés mais que la classe `Servo` peut utiliser n'importe
+quelle unité angulaire.
+Ainsi le programme suivant produit un résultat rigoureusement identique au précédent.
+Notez les valeurs du paramètre `angle_range` et celles de la séquence parcourue par la boucle `for`.
+
+```python
+from time import sleep
+from pwm_control import Servo
+
+# On crée une instance de la classe Servo pour contrôler mon servo SG90
+# dont j'ai préalablement établi les durrées d'impulsion correspondant 
+# au position 0 et 180 degrés.
+# Le SG90 est connecté au GPIO 8.
+my_sg90 = Servo(8, timing_range=(500, 2480), angle_range=(-1, 1))
+# Puis on démarre le contrôle.
+my_sg90.start()
+
+while True:
+    # Le servo va aller aux positions -1, 0, 1 puis retour à la position 0.
+    for angle in (-1, 0, 1, 0):
+        # Le servo se déplace
+        my_sg90.set_angle(angle)
+        # Le programme attend une seconde.
+        sleep(1)
+    # Un tour de manège entre les différentes positions est terminé,
+    # on recommence.
+```
+
+### Synchroniser plusieurs servomoteurs
+
+TODO
