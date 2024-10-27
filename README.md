@@ -24,9 +24,9 @@ C'est un atelier dont la mise en œuvre est préalable à tous les autres atelie
 2. [`LED`](Ateliers/2_LED): allumer une LED, la faire clignoter.
 3. [`Potentiomètre`](Ateliers/3_Potentiomètre): faire varier une tension à l'aide
 d'un potentiomètre, utiliser une entrée analogique du Raspberry Pi Pico.
-4. [`HC-SR501`](Ateliers/_HC-SR501): mise en œuvre du module capteur de mouvement HC-SR501.
-5. [`Moteur électrique`](Ateliers/_Moteur_électrique): utiliser un moteur électrique.
-6. [`Servomoteur`](Ateliers/_Servomoteur): utiliser un servomoteur.
+4. [`Moteur électrique`](Ateliers/4_Moteur_électrique): utiliser un moteur électrique.
+5. [`Servomoteur`](Ateliers/5_Servomoteur): utiliser un servomoteur.
+6. [`HC-SR501`](Ateliers/6_HC-SR501): mise en œuvre du module capteur de mouvement HC-SR501.
 7. [`Moteur pas-à-pas`](Ateliers/7_Moteur_pas-à-pas): utiliser un moteur pas-à-pas.
 
 À noter que si le texte des ateliers est rédigé en français, il arrive que 
