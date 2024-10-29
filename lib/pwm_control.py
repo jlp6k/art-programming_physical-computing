@@ -303,6 +303,45 @@ Enter command or commands (? prints help): """)
         self._gpio_pwm.duty_u16(self._timing_us_to_duty_u16(self._angle_to_timing_us(self.get_angle())))
 
 
+class L298:
+    def __init__(self, en_gpio, inC_gpio, inD_gpio, pwm_freq=100):
+        # pin configuration
+        # The names inC inD are from the L298 datasheet
+        self._inC = Pin(inC_gpio, Pin.OUT)
+        self._inD = Pin(inD_gpio, Pin.OUT)
+        self.forward()
+        self._en = PWMControl(en_gpio, pwm_freq=pwm_freq)
+        # It's fine to start PWM now as the duty cycle is initially set to 0
+        # This sets the L298 output to "Free running motor stop" mode
+
+    def start(self):
+        self._en.init()
+
+    def stop(self):
+        self._en.deinit()
+
+    def set_speed(self, speed, duration=0.0):
+        self._en.set_width(speed, duration=duration)
+
+    def forward(self, forward=True):
+        if forward:
+            self._inC.on()
+            self._inD.off()
+            # This sets the L298 output to "Forward" mode
+        else:
+            self._inC.off()
+            self._inD.on()
+            # This sets the L298 output to "Reverse" mode
+
+    def reverse(self, reverse=True):
+        self.forward(not reverse)
+
+    def brake(self):
+        self._inC.off()
+        self._inD.off()
+        # This sets the L298 output to "Fast motor stop" mode
+
+
 def led_demo(ext_led_gpio):
     # ext_led_gpio is the GPIO number the LED is connected to.
 
@@ -349,6 +388,40 @@ def servo_demo(servo_gpio):
             sleep(0.005)
         
     servo.stop()
+
+
+def l298_demo(ena_gpio, in1_gpio, in2_gpio):
+    from time import sleep
+
+    l298 = L298(ena_gpio, in1_gpio, in2_gpio)
+
+    while True:
+        print("Set to forward direction")
+        l298.forward()
+        for s in range(0, 101):
+            speed = s / 100
+            print("Setting speed to", speed)
+            l298.set_speed(speed)
+            sleep(0.1)
+        print("Brake")
+        l298.brake()
+        print("Set speed to 0")
+        l298.set_speed(0)
+
+        print("Set to reverse direction")
+        l298.reverse()
+        for s in range(0, 101):
+            speed = s / 100
+            print("Setting speed to", speed)
+            l298.set_speed(speed)
+            sleep(0.1)
+
+        # Don't change direction to quickly
+        print("Halt the motor in 3 seconds")
+        l298.set_speed(0, duration=3)
+        # The set_speed() call returns immediately,
+        # so give time for the motor to stop
+        sleep(3)
 
 
 # On teste le contenu de la variable spéciale __name__ afin de déterminer si le module

@@ -194,7 +194,7 @@ pour vous. Par exemple :
 
 #### Résistance ✊
 
-![symboles des résistances](../../Images/symbole_r%C3%A9sistance.svg)
+![symboles des résistances](../../Images/symbole_resistance.svg)
 
 Comme montré dans le dessin ci-dessus, les 
 [résistances](https://fr.wikipedia.org/wiki/R%C3%A9sistance_(composant))
@@ -214,7 +214,7 @@ sa tolérance (la précision de sa valeur).
 Le tableau ci-dessous permet de déterminer la valeur d'une résistance d'après la couleur
 des bandes qu'elle porte.
 
-![Code couleur résistances.svg](../../Images/Code%20couleur%20r%C3%A9sistances.svg)
+![Code couleur des résistances](../../Images/Code_couleur_resistances.svg)
 
 Sauriez-vous déterminer les valeurs des résistances ci-dessous (réponse au bas de cette page) ?
 

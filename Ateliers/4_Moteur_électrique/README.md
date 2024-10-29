@@ -97,7 +97,69 @@ Le graphique ci-dessous illustre la relation entre le rapport cyclique (la duré
 D'après ce graphique la tension d'alimentation du moteur est de 0 volt ou de 3.3 volts.
 Mais le moteur réagit comme s'il était alimenté par une tension variable entre 0 et 3.3V.
 
-### L298N
+### L298
+
+Contrairement aux petites LED que nous pouvons directement connecter aux broches du Raspberry Pi Pico pour les
+alimenter et en contrôler la luminosité, il n'est pas possible d'alimenter un moteur électrique à partir des broches
+de notre carte à microcontrôleur.
+
+Pour commander le notre moteur électrique, nous avons besoin d'un circuit de puissance qui va servir d'interface
+entre les basses tensions et faible puissance du microcontrôleur et les tensions et puissance plus élevées du moteur
+électrique. Ce type de circuit est parfois appelé pilote (ou _driver_ en anglais).
+
+Pour nos activités, nous utiliserons un module basé dur le circuit L298 de STMicroelectronics qui permet de piloter
+jusqu'à deux moteurs à courant continu à balais.
+
+La fiche technique du L298 est disponible à l'adresse : https://www.st.com/resource/en/datasheet/l298.pdf
+
+Vous pouvez également consulter un article de blog très complet sur le module : https://passionelectronique.fr/tutoriel-l298n/  
+
+### Mise en œuvre du L298
+
+Pour faire fonctionner un moteur électrique avec un driver L298 commandé depuis un Pico, nous avons besoin d'une
+alimentation électrique adaptée à notre moteur et de 3 ports GPIO ; nous choisirons les GPIO 16, 17, 18.
+Trois GPIO supplémentaires seraient nécessaire pour faire fonctionner un second moteur.
+
+```python
+import pwm_control
+
+# On crée une instance de la classe L298 pour contrôler un circuit
+# qui pilote un moteur
+l298 = L298(ena_gpio, in1_gpio, in2_gpio)
+
+while True:
+    print("Set to forward direction")
+    l298.forward()
+    for s in range(0, 101):
+        speed = s / 100
+        print("Setting speed to", speed)
+        l298.set_speed(speed)
+        sleep(0.1)
+    print("Brake")
+    l298.brake()
+    print("Set speed to 0")
+    l298.set_speed(0)
+
+    print("Set to reverse direction")
+    l298.reverse()
+    for s in range(0, 101):
+        speed = s / 100
+        print("Setting speed to", speed)
+        l298.set_speed(speed)
+        sleep(0.1)
+
+    # Don't change direction to quickly
+    print("Halt the motor in 3 seconds")
+    l298.set_speed(0, duration=3)
+    # The set_speed() call returns immediately,
+    # so give time for the motor to stop
+    sleep(3)
 
 
+```
+
+Un tutoriel très complet :
+
+
+https://www.st.com/resource/en/datasheet/l298.pdf
 

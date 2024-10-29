@@ -31,8 +31,8 @@ Les potentiomètres sont généralement représentés schématiquement par les
 symboles ci-dessous ([IEC](https://fr.wikipedia.org/wiki/Commission_%C3%A9lectrotechnique_internationale)
 à gauche, [ANSI](https://fr.wikipedia.org/wiki/American_National_Standards_Institute) à droite).
 
-![Symbole potentiomètre IEC](../../Images/symbole_potentiomètre_IEC.svg)
-![Symbole potentiomètre ANSI](../../Images/symbole_potentiomètre_US.svg)
+![Symbole potentiomètre IEC](../../Images/symbole_potentiometre_IEC.svg)
+![Symbole potentiomètre ANSI](../../Images/symbole_potentiometre_US.svg)
 
 Ces schémas permettent également d'entrevoir la disposition mécanique des
 potentiomètres : un point de contact est déplacé à l'aide d'un axe
@@ -41,7 +41,7 @@ La résistance entre le point de contact lié à B et
 les bornes A et C est proportionelle à la distance du point de contact
 aux extrémités A et C de la piste résistive.
 
-![potentiomètre.svg](../../Images/potentiomètre.svg)
+![potentiomètre](../../Images/potentiometre.svg)
 
 Les potentiomètres peuvent avoir de nombreuses formes et dimensions
 qui diffèrent selon l'usage auxquels ils sont destinés.
@@ -50,7 +50,7 @@ imprimé et réglés une fois pour toutes.
 La plupart des potentiomètres sont rotatifs mais certains ont un curseur
 qui glisse dans un rail.
 
-![potentiomètres.png](../../Images/potentiomètres.png)
+![potentiomètres.png](../../Images/potentiometres.png)
 
 Les caractéristiques électriques d'un potentiomètre sont sa résistance
 totale, sa puissance et sa courbe de variation. Ce dernier point détermine
