@@ -99,9 +99,9 @@ Mais le moteur réagit comme s'il était alimenté par une tension variable entr
 
 ### L298
 
-Contrairement aux petites LED que nous pouvons directement connecter aux broches du Raspberry Pi Pico pour les
-alimenter et en contrôler la luminosité, il n'est pas possible d'alimenter un moteur électrique à partir des broches
-de notre carte à microcontrôleur.
+Contrairement aux petites LED que nous avons connectées aux broches du Raspberry Pi Pico pour les
+alimenter et en contrôler la luminosité, il n'est pas possible d'alimenter un moteur électrique directement
+à partir des broches de notre carte à microcontrôleur.
 
 Pour commander le notre moteur électrique, nous avons besoin d'un circuit de puissance qui va servir d'interface
 entre les basses tensions et faible puissance du microcontrôleur et les tensions et puissance plus élevées du moteur
@@ -118,48 +118,62 @@ Vous pouvez également consulter un article de blog très complet sur le module 
 
 Pour faire fonctionner un moteur électrique avec un driver L298 commandé depuis un Pico, nous avons besoin d'une
 alimentation électrique adaptée à notre moteur et de 3 ports GPIO ; nous choisirons les GPIO 16, 17, 18.
-Trois GPIO supplémentaires seraient nécessaire pour faire fonctionner un second moteur.
+Trois GPIO supplémentaires seraient nécessaires pour faire fonctionner un second moteur.
 
 ```python
-import pwm_control
+from time import sleep
+from pwm_control import L298
 
-# On crée une instance de la classe L298 pour contrôler un circuit
-# qui pilote un moteur
+# Le module L298 est connecté au Pico comme suit :
+#  ena --> gpio 16 (broche 21)
+#  in1 --> gpio 17 (broche 22)
+#  in2 --> gpio 18 (broche 24)
+ena_gpio = 16
+in1_gpio = 17
+in2_gpio = 18
+# On crée une instance de la classe L298 pour commander le module
+# qui pilote un moteur. 
 l298 = L298(ena_gpio, in1_gpio, in2_gpio)
 
+# Puis dans une boucle infinie
 while True:
-    print("Set to forward direction")
+    # On met le marche avant (le moteur est à l'arrêt)
+    print("Marche avant")
     l298.forward()
+    # On augmente la vitesse de 0 à 100% (de 0 à 1) tous les 1/10e de secondes
     for s in range(0, 101):
         speed = s / 100
-        print("Setting speed to", speed)
+        print("Vitesse", speed)
         l298.set_speed(speed)
         sleep(0.1)
-    print("Brake")
+        
+    # On freine le moteur
+    print("Freinage")
     l298.brake()
-    print("Set speed to 0")
+    # Puis on met la vitesse à 0
+    print("Vitesse 0")
     l298.set_speed(0)
 
-    print("Set to reverse direction")
+    # On inverse le sens de la marche
+    print("Marche arrière")
     l298.reverse()
+    # Puis on augmente la vitesse de 0 à 100% (de 0 à 1) tous les 1/10e de secondes    
     for s in range(0, 101):
         speed = s / 100
-        print("Setting speed to", speed)
+        print("Vitesse", speed)
         l298.set_speed(speed)
         sleep(0.1)
 
-    # Don't change direction to quickly
-    print("Halt the motor in 3 seconds")
+    # Pour ne pas changer le sens de rotation du moteur trop rapidement
+    # On stoppe le moteur progressivement.
+    print("Arrêt du moteur en 3 secondes")
     l298.set_speed(0, duration=3)
-    # The set_speed() call returns immediately,
-    # so give time for the motor to stop
+    # L'appel de la fonction set_speed() se termine immédiatement (bien que la vitesse baisse
+    # progressivement), on suspend donc l'exécution du programme pour laisser le temps
+    # à la vitesse de diminuer.
     sleep(3)
-
-
 ```
 
-Un tutoriel très complet :
-
-
-https://www.st.com/resource/en/datasheet/l298.pdf
-
+À noter que le circuit L298 peut être utilisé pour piloter autre chose qu'un moteur.
+Il peut, par exemple, être utilisé pour faire varier l'intensité d'ampoules halogène ou à LED 
+alimentées en tension continue de 12 volts.

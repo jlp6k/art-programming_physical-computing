@@ -8,9 +8,8 @@ class PWMControl:
     """La classe PWMControl permet de faire varier automatiquement et à une vitesse contrôlée
     la largeur d'impulsion d'une broche en PWM. La largeur d'impulsion est une valeur dans
     l'intervalle 0..1.
-    
 
-    La mise à jour de la largeur d'impulsion est linéaire.
+    La mise à jour de la largeur d'impulsion est linéaire et fonction du temps.
     La classe a des limites de fonctionnement imposées par le microcontrôleur.
     """
     def __init__(self, gpio, pwm_freq=1760, update_rate=30):
@@ -67,7 +66,7 @@ class PWMControl:
         self._initial_ticks = ticks_ms()
         self._duration_ms = int(duration * 1000)
         self._initial_duty = self._gpio_pwm.duty_u16()
-        self._goal_duty = int(width * 65535)
+        self._goal_duty = int(max(min(width, 1.0), 0.0) * 65535)
 
         if self._duration_ms == 0:
             self._gpio_pwm.duty_u16(self._goal_duty)
@@ -304,41 +303,109 @@ Enter command or commands (? prints help): """)
 
 
 class L298:
-    def __init__(self, en_gpio, inC_gpio, inD_gpio, pwm_freq=100):
+    """The L298 class simplifies the use of an L298 driver module with PWM control.
+
+    One instance of the L298 class controls one side of the module. Instantiate two of them to have
+    the complete control of the module.
+    """
+
+    def __init__(self, en_gpio, in_c_gpio, in_d_gpio, pwm_freq=100, update_rate=30):
+        """The instance initialization method takes 3 mandatory parameters: the 3 GPIOs used to command
+        the L298.
+
+        :param en_gpio: int, the GPIO number connected to one of the L298 ena or enb inputs.
+        :param in_c_gpio: int, the GPIO number connected to one of the L298 in1 or in3 inputs.
+        :param in_c_gpio: int, the GPIO number connected to one of the L298 in2 or in4 inputs.
+        :param pwm_freq: int, the frequency of the pulses.
+        :param update_rate: int, the pulse duration update frequency.
+        """
         # pin configuration
-        # The names inC inD are from the L298 datasheet
-        self._inC = Pin(inC_gpio, Pin.OUT)
-        self._inD = Pin(inD_gpio, Pin.OUT)
+        # The names c and d are from the L298 datasheet
+        self._c = Pin(in_c_gpio, Pin.OUT)
+        self._d = Pin(in_d_gpio, Pin.OUT)
         self.forward()
-        self._en = PWMControl(en_gpio, pwm_freq=pwm_freq)
+        self._en = PWMControl(en_gpio, pwm_freq=pwm_freq, update_rate=update_rate)
         # It's fine to start PWM now as the duty cycle is initially set to 0
         # This sets the L298 output to "Free running motor stop" mode
 
     def start(self):
+        """The start() method enables the L298 PWM control.
+
+        :return: None
+        """
         self._en.init()
 
     def stop(self):
+        """The start() method disables the L298 PWM control.
+
+        :return: None
+        """
         self._en.deinit()
 
     def set_speed(self, speed, duration=0.0):
+        """The set_speed() method sets the speed of the motor connected to the L298 module output
+        in duration seconds.
+        The speed must be expressed as a float in the 0..1 interval.
+        The duration optional keyword parameter allows to specify the time it will take for the motor
+        to go from its current speed to the desired speed. If not specified, the duration is set to 0
+        and the speed update is immediate.
+
+        The set_speed() method is non-blocking. So it returns immediately even if the duration parameter
+        equals 0.
+
+        :param speed: float, new speed value.
+        :param duration: float, the GPIO connected to one of the L298 in1 or in3 inputs.
+        :return: None
+        """
+
         self._en.set_width(speed, duration=duration)
 
     def forward(self, forward=True):
+        """The forward() method sets the direction of rotation of the motor.
+
+        Please note what is known as the forward direction is quite arbitrary as it depends
+        on how the motor is mounted and wired.
+
+        The forward optional keyword parameter can be used to parametrize the direction control.
+        Thus, calling forward(False) is the same as calling reverse().
+
+        :param forward: bool, if True the motor will run forward and reverse otherwise.
+        :return: None
+        """
+
         if forward:
-            self._inC.on()
-            self._inD.off()
+            self._c.on()
+            self._d.off()
             # This sets the L298 output to "Forward" mode
         else:
-            self._inC.off()
-            self._inD.on()
+            self._c.off()
+            self._d.on()
             # This sets the L298 output to "Reverse" mode
 
     def reverse(self, reverse=True):
+        """The reverse() method sets the direction of rotation of the motor.
+
+        Please note what is known as the reverse direction is quite arbitrary as it depends
+        on how the motor is mounted and wired.
+
+        The reverse optional keyword parameter can be used to parametrize the direction control.
+        Thus, calling reverse(False) is the same as calling forward().
+
+        :param reverse: bool, if True the motor will run reverse and forward otherwise.
+        :return: None
+        """
+
         self.forward(not reverse)
 
     def brake(self):
-        self._inC.off()
-        self._inD.off()
+        """The brake() method will activate the L298 fast motor stop mode causing
+        an effective quick stop.
+
+        :return: None
+        """
+
+        self._c.off()
+        self._d.off()
         # This sets the L298 output to "Fast motor stop" mode
 
 
@@ -391,6 +458,11 @@ def servo_demo(servo_gpio):
 
 
 def l298_demo(ena_gpio, in1_gpio, in2_gpio):
+    """The l298_demo() function can be used to demonstrate the use of or test a L298
+    class instance.
+
+
+    """
     from time import sleep
 
     l298 = L298(ena_gpio, in1_gpio, in2_gpio)
