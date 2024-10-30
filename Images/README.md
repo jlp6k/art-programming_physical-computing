@@ -13,15 +13,17 @@ des fichiers depuis lesquels elles ont été adaptées.
 | pico-1s.png                   | https://www.raspberrypi.com/documentation/microcontrollers/images/pico-1s.png                                                                                      |
 | picow-pinout.svg              | https://www.raspberrypi.com/documentation/microcontrollers/images/picow-pinout.svg                                                                                 |
 | picow-pinout_wbg.svg          | picow-pinout.svg                                                                                                                                                   |
+| potentiomètre.svg             | https://nl.wikipedia.org/wiki/Potentiometer#/media/Bestand:Potmeter_interior.jpg <br/>https://arduino.blaisepascal.fr/wp-content/uploads/2015/12/potentiometre.jpg |
 | potentiomètres.png            | https://www.tme.eu/fr/katalog/potentiometres_24/                                                                                                                   |
+| ServoPWControl_wbg.svg        | TiemposServo.svg                                                                                                                                                   |
+| Sonar_Principle_EN.svg        | https://commons.wikimedia.org/wiki/File:Sonar_Principle_EN.svg                                                                                                     |
+| Sonar_Principle_FR.svg        | Sonar_Principle_EN.svg                                                                                                                                             |
 | symbole_diode.svg             | Electrical_Symbols_IEC.svg                                                                                                                                         |
 | symbole_LED.svg               | Electrical_Symbols_IEC.svg                                                                                                                                         |
 | symbole_potentiomètre_IEC.svg | Electrical_Symbols_IEC.svg                                                                                                                                         |
 | symbole_potentiomètre_US.svg  | Electrical_Symbols_IEC.svg                                                                                                                                         |
 | symbole_résistance.svg        | Electrical_Symbols_IEC.svg                                                                                                                                         |
-| potentiomètre.svg             | https://nl.wikipedia.org/wiki/Potentiometer#/media/Bestand:Potmeter_interior.jpg <br/>https://arduino.blaisepascal.fr/wp-content/uploads/2015/12/potentiometre.jpg |
 | TiemposServo.svg              | https://commons.wikimedia.org/wiki/File:TiemposServo.svg                                                                                                           |
-| ServoPWControl_wbg.svg        | TiemposServo.svg                                                                                                                                                   |
 
 Les retouches des images ont été réalisées avec [Inkscape](https://inkscape.org/) 
 et [Gimp](https://www.gimp.org/).

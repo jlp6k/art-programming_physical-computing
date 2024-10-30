@@ -27,7 +27,8 @@ d'un potentiomètre, utiliser une entrée analogique du Raspberry Pi Pico.
 4. [`Moteur électrique`](Ateliers/4_Moteur_électrique): utiliser un moteur électrique.
 5. [`Servomoteur`](Ateliers/5_Servomoteur): utiliser un servomoteur.
 6. [`HC-SR501`](Ateliers/6_HC-SR501): mise en œuvre du module capteur de mouvement HC-SR501.
-7. [`Moteur pas-à-pas`](Ateliers/7_Moteur_pas-à-pas): utiliser un moteur pas-à-pas.
+7. [`HC-SR04`](Ateliers/7_HC-SR04): mise en œuvre du module capteur de distance à ultrason HC-SR04.
+8. [`Moteur pas-à-pas`](Ateliers/8_Moteur_pas-à-pas): utiliser un moteur pas-à-pas.
 
 À noter que si le texte des ateliers est rédigé en français, il arrive que 
 la documentation et les commentaires des modules contenus dans le dossier
