@@ -6,7 +6,7 @@ def call_every(function, *args, id=None, count=None, delay_ms=None, **kwargs):
     """call_every() calls the function passed in parameter with *args and **kwargs.
     But call_every() has three parameters that keep the function to be called.
     The count parameter is an integer which allows the function to be actually called one time over
-    the specified number of calls.
+    the specified number of calls of call_every().
     The delay_ms parameter does the same as the count parameter but instead of counting the number of calls,
     it counts time delay between two calls in milliseconds.
 
