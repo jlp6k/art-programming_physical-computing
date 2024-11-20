@@ -1,7 +1,6 @@
 ## Capteur de distance à ultrason
 
-Un capteur de d
-istance à ultrason est un capteur actif dont le principe de fonctionnement est comparable
+Un capteur de distance à ultrason est un capteur actif dont le principe de fonctionnement est comparable
 à celui d'un sonar : le capteur émet un signal sonore bref dans les [ultrasons](https://fr.wikipedia.org/wiki/Ultrason)
 et écoute l'écho de cette impulsion.
 
@@ -97,3 +96,32 @@ diviseur.
 
 ![Platine de prototypage mettant œuvre un capteur HC-SR04 connecté à un Raspberry Pi Pico](assets/HC-SR04_proto_wbg.svg)
 
+Le code exploite la classe `HCSR04` du module `sensors`.
+
+```python
+from time import sleep
+from sensors import HCSR04
+
+# Le HC-SR04 nécessite deux GPIOs : trigger et echo.
+# Le premier sert à démarrer la mesure et le second renvoie la distance mesurée.
+trigger_gpio = 20
+echo_gpio = 19
+
+# On crée une instance de la classe HC-SR04, elle met en œuvre le processus de mesure.
+hcsr04 = HCSR04(trigger_gpio, echo_gpio)
+
+# On fait une mesure par seconde.
+while True:
+    # On appelle la methode measure() de l'objet hcsr04, elle renvoie la distance 
+    # mesurée en centimètre ou -1 quand la distance dépasse les capacités maximales
+    # du HC-SR04 range.
+    distance_cm = hcsr04.measure()
+
+    if distance_cm != -1:
+        print(f"distance: {distance_cm} cm")
+    else:
+        print(f"Out of range")
+
+    # On interrompt le programme pendant 1 seconde.
+    sleep(1)
+```
