@@ -110,3 +110,13 @@ https://www.raspberrypi.com/documentation/microcontrollers/micropython.html.
 > dont vous disposez.
 
 Toutes les versions de MicroPython sont disponibles sur https://micropython.org/download/.
+
+Pour programmer votre Raspberry Pi Pico, procédez comme suit :
+
+1. Téléchargez le _firmware_ approprié pour votre Microcontrôleur sur votre ordinateur.
+2. Appuyez sur le micro-bouton `BOOTSEL` (sur le Pico, à côté de la LED) et maintenez-le enfoncé.
+Tout en gardant le bouton appuyé, connectez votre Pico à un ordinateur avec un câble USB.
+Relâchez le bouton `BOOTSEL` lorsque votre Pico apparaît comme un dispositif de stockage de masse
+appelé `RPI-RP2`.
+3. Glissez et déposez le fichier MicroPython `.uf2` sur le volume `RPI-RP2`.
+Votre Pico redémarre, il fait maintenant fonctionner MicroPython !

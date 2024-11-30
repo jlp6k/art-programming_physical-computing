@@ -1,4 +1,5 @@
 from machine import Pin
+import machine
 
 from pwm_control import PWMControl
 from scene_control import SceneControl
