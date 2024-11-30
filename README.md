@@ -38,7 +38,7 @@ la documentation et les commentaires des modules contenus dans le dossier
 Ceci s'explique parce que tous ces codes n'ont pas été écrits à la même période,
 ni tout à fait avec la même motivation car ils proviennent parfois de projets plus anciens.
 Je pense qu'un travail de traduction systématique vers l'anglais serait souhaitable
-comme toute documentation partagée devrait l'être (IMHO) mais à ce jour je n'en ai 
+comme toute documentation partagée devrait l'être (IMHO) mais, à ce jour, je n'en ai 
 pas eu le temps.
 
 ## Contribuer

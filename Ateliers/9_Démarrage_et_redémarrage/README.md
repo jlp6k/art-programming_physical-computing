@@ -91,7 +91,7 @@ Pour cela, nous aurons besoin :
 1. du _firmware_ spécial de réinitialisation intitulé `flash_nuke.uf2` et disponible à l'adresse
 https://datasheets.raspberrypi.com/soft/flash_nuke.uf2. 
 2. du _firmware_ Micropython sous la forme d'un fichier `.uf2` disponible
-à l'adresse https://www.raspberrypi.com/documentation/microcontrollers/micropython.html.
+à l'adresse https://www.raspberrypi.com/documentation/microcontrollers/micropython.html#drag-and-drop-micropython.
 
 Attention, le fichier à télécharger dépend de la version de votre microcontrôleur.
 Ainsi, un _firmware_ pour Raspberry Pi Pico, ne conviendra pas à un Pico W, à un Pico 2 ou à un Pico 2 W

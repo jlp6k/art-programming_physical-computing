@@ -104,7 +104,7 @@ dans la partie centrale.
 
 Il ne faut pas oublier d'installer MicroPython sur le Raspberry Pi Pico W.
 Pour cela il faut suivre les instructions disponibles sur
-https://www.raspberrypi.com/documentation/microcontrollers/micropython.html.
+https://www.raspberrypi.com/documentation/microcontrollers/micropython.html#drag-and-drop-micropython.
 
 > Important : vous devez installer la version de MicroPython spécifique à la carte 
 > dont vous disposez.
