@@ -23,8 +23,7 @@ try:
 except Exception as e:
     print("Fatal error in main:")
     sys.print_exception(e)
-finally:
 
-    # Après une exception qui aurait interrompu l'application ou après la fin normale de celle-ci,
-    # le microcontrôleur est redémarré.
-    machine.reset()
+# Après une exception qui aurait interrompu l'application ou après la fin normale de celle-ci,
+# le microcontrôleur est redémarré.
+machine.reset()
