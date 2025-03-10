@@ -195,17 +195,27 @@ class DRV8825:
     This class is a work in progress.
     It is designed to control a DRV8825 stepper driver.
     """
-    def __init__(self, step_pin_id, dir_pin_id, delay_us=2000):
+    def __init__(self, step_pin_id, dir_pin_id, delay_us=2000, step_pulse_us=10):
         # Initialize the pins
         self._step_pin = Pin(step_pin_id, Pin.OUT)
         self._dir_pin = Pin(dir_pin_id, Pin.OUT)
 
+        # The DRV8825 datasheet says the maximum frequency of the step pin is 250kHz
+        # and the minimum duration of a step pulse is 1.9 µs.
+        assert step_pulse_us >= 2, "step_pulse_us is too short"
+        assert delay_us >= (step_pulse_us + 2), "delay_us is too short"
         self._delay_us = delay_us
+        self._step_pulse_us = step_pulse_us
 
     @property
     def delay_us(self):
         """Returns the configured delay between two steps."""
         return self._delay_us
+
+    @property
+    def step_pulse_us(self):
+        """Returns the configured duration of a step trigger pulse."""
+        return self._step_pulse_us
 
     def step(self, count=1, direction=1, no_delay=False):
         """The step() method moves the stepper.
@@ -229,13 +239,11 @@ class DRV8825:
                 delay_us = 0
 
             # Pulse the step pin for each step
-            # The DRV8825 datasheet says the maximum frequency of the step pin is 250kHz
-            # and the minimum duration of a step pulse is 1.9 µs.
             for c in range(count):
-                self._dir_pin.on()
-                sleep_us(2)  # 2 µs pause
-                self._dir_pin.off()
-                sleep_us(max(0, delay_us - 2))
+                self._step_pin.on()
+                sleep_us(self._step_pulse_us)
+                self._step_pin.off()
+                sleep_us(delay_us - self._step_pulse_us)
 
 
 if __name__ == "__main__":
