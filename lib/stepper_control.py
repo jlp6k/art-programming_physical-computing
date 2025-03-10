@@ -139,6 +139,8 @@ class ULN2003:
 
         self._delay_us = delay_us
 
+        # The _step private property keeps the index of the last output-pin combination
+        # of the _HALF_STEPS table used by the step() method.
         self._step = 0
 
     @property
@@ -188,13 +190,59 @@ class ULN2003:
             sleep_us(delay_us)
 
 
+class DRV8825:
+    """
+    This class is a work in progress.
+    It is designed to control a DRV8825 stepper driver.
+    """
+    def __init__(self, step_pin_id, dir_pin_id, delay_us=2000):
+        # Initialize the pins
+        self._step_pin = Pin(step_pin_id, Pin.OUT)
+        self._dir_pin = Pin(dir_pin_id, Pin.OUT)
+
+        self._delay_us = delay_us
+
+    @property
+    def delay_us(self):
+        """Returns the configured delay between two steps."""
+        return self._delay_us
+
+    def step(self, count=1, direction=1, no_delay=False):
+        """The step() method moves the stepper.
+
+        :param count: int, the number of steps
+        :param direction: int, positive value makes the motor shaft to rotate in a direction,
+        while negative value make it rotate in the opposite direction. If 0 the motor won't move.
+        :param no_delay: bool, if True, the method will sleep for a preset (at instanciation) amount of time.
+        This allows time for the motor to move. If False, the method won't sleep.
+        :return: None
+        """
+        if direction != 0:
+            # (if direction == 0 the motor won't move)
+            # Set the dir pin
+            self._dir_pin.value(1 if direction > 0 else 0)
+
+            # Pausing after each step ensures the motor has time to move and set
+            # If the method is called for a single step, the delay could be omitted (delegated to the caller).
+            delay_us = self._delay_us
+            if no_delay and count == 1:
+                delay_us = 0
+
+            # Pulse the step pin for each step
+            # The DRV8825 datasheet says the maximum frequency of the step pin is 250kHz
+            # and the minimum duration of a step pulse is 1.9 µs.
+            for c in range(count):
+                self._dir_pin.on()
+                sleep_us(2)  # 2 µs pause
+                self._dir_pin.off()
+                sleep_us(max(0, delay_us - 2))
+
+
 if __name__ == "__main__":
     # Démonstration de l'utilisation de la classe ULN2003.
     from machine import reset
 
-    # Le programme ci-dessous est inclus dans un gestionnaire d'exception afin de s'arrêter proprement
-    # s'il est interrompu.
-    try:
+    def uln2003_demo():
         # Initialize the ULN2003 class in order to drive a motor connected through
         # GPIOs 10 to 13:
         #   Pico        ULN2003
@@ -233,6 +281,30 @@ if __name__ == "__main__":
         # Then execute the prepared commands
         stepper_command.run()
 
+    def drv8825_demo():
+        # Initialize the DRV8825 class in order to drive a motor connected through
+        # GPIOs 10 to 13:
+        #   Pico        DRV8825
+        #   GPIO_16 --> STEP
+        #   GPIO_17 --> DIR
+        stepper_driver = DRV8825(16, 17, 1000)
+        # By default, the step delay is set to 2000µs this may need to be adjusted
+        # depending on the steppers power supply and the type of steppers used.
+
+        # Number of steps to do
+        steps = 10
+        # Move in a direction in full steps then backward.
+        # Doing full steps is the default but it could be changed.
+        stepper_driver.step(steps, 1)
+        stepper_driver.step(steps, -1)
+
+
+    # Le programme ci-dessous est inclus dans un gestionnaire d'exception afin de s'arrêter proprement
+    # s'il est interrompu.
+    try:
+        # Uncomment on of the following lines
+        #uln2003_demo()
+        drv8825_demo()
     except KeyboardInterrupt:
         # L'utilisateur a interrompu le programme, on réinitialise la carte.
         reset()

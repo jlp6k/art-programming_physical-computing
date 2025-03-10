@@ -267,6 +267,7 @@ Enter command or commands (? prints help): """)
         Attention, cette fonction n'a d'effet qu'après que la méthode start() ait démarré
         le contrôle du servo.
         """
+        # TODO: add duration control
         self._angle = max(self.min_angle, min(self.max_angle, angle))
 
     def _angle_to_timing_us(self, angle):
