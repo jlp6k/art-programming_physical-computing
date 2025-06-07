@@ -58,6 +58,13 @@ des contributeurices.
 
 Et surtout si vous êtes enseignant·e, ne restez pas dans l'ombre, nous pourrions collaborer.
 
+## Projets développés
+
+Votre projet utilise une bibliothèque de ce dépot Github ? Envoyez-moi un mot et je l'ajouterai ici. 
+
+Valentine Langer. _Au chevet de l'Art_, 2025.
+https://github.com/valentinelanger/au_chevet_de_lart/
+
 ## Licence et usage
 
 art-programming_physical-computing
