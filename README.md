@@ -60,7 +60,7 @@ Et surtout si vous êtes enseignant·e, ne restez pas dans l'ombre, nous pourrio
 
 ## Projets développés
 
-Votre projet utilise une bibliothèque de ce dépot Github ? Envoyez-moi un mot et je l'ajouterai ici. 
+Votre projet utilise une bibliothèque de ce dépôt Github ? Envoyez-moi un mot et je l'ajouterai ici. 
 
 Valentine Langer. _Au chevet de l'Art_, 2025.<br>
 https://github.com/valentinelanger/au_chevet_de_lart/
@@ -73,7 +73,7 @@ art-programming_physical-computing
 Sauf mention contraire, tout le contenu du dépôt est ainsi licencié.
 
 Si vous utilisez tout ou partie de ce projet en dehors d'un projet pédagogique de la 
-Villa Arson, j'apprécierais que vous citiez cette source (et de toute manière c'est ce que
+Villa Arson, j'apprécierais que vous citiez cette source (et de toute manière, c'est ce que
 demande explicitement la licence ci-dessus).
 Quelque chose comme :
 
