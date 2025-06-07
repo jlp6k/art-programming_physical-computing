@@ -62,8 +62,7 @@ Et surtout si vous êtes enseignant·e, ne restez pas dans l'ombre, nous pourrio
 
 Votre projet utilise une bibliothèque de ce dépot Github ? Envoyez-moi un mot et je l'ajouterai ici. 
 
-Valentine Langer. _Au chevet de l'Art_, 2025.
-
+Valentine Langer. _Au chevet de l'Art_, 2025.<br>
 https://github.com/valentinelanger/au_chevet_de_lart/
 
 ## Licence et usage
