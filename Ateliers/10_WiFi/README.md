@@ -176,3 +176,32 @@ le protocole HTTP (pas HTTPS) et il répond une page web qui liste les clients c
 Par défaut `serve=False`, le serveur web n'est donc pas démarré.
 
 ![La page web renvoyée par le point d'accès WiFi](assets/AP_web.jpg)
+
+### Code et sécurité
+
+Attention, si le code que vous écrivez est enregistré dans le cloud, vous ne devez pas y laisser
+vos mots de passe WiFi (ou tout autre mot de passe ou clef d'accès).
+
+Pour cela, vous pouvez créer un fichier intitulé `credential.py`, il contient les informations
+à ne pas divulguer.
+Par exemple :
+
+```python
+# Ceci est le fichier credential.py
+# Ne pas divulguer
+
+wifi_ssid = "PICO_AP"
+wifi_password = "password"
+```
+
+Puis dans le code de votre application, il suffir d'importer le fichier `credential.py` comme un
+module.
+
+```python
+import wifi, credential
+
+# On connecte le Pico au réseau dont le nom est dans le module credential
+wifi.Client(credential.wifi_ssid, credential.wifi_password, blink_led=True, retries=2, max_power=True)
+```
+
+Ensuite, seul le fichier de votre application sera partagé.
