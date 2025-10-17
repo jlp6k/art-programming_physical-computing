@@ -2,8 +2,7 @@
 
 Un [moteur pas à pas](https://fr.wikipedia.org/wiki/Moteur_pas_%C3%A0_pas)
 (_stepper motor_ en anglais) est un type de moteur électrique rotatif
-que l'on peut commander pour qu'il se place dans une position
-angulaire précise.
+que l'on peut commander pour qu'il tourne d'un angle précis.
 
 Bien que d'usage souvent similaire au servomoteur, son fonctionnement
 est tout à fait différent, de même que la façon de le contrôler.
@@ -43,15 +42,18 @@ Le circuit ULN2003 est relativement simple. C'est seulement une interface entre 
 dont les broches ne peuvent commander que des composants de faible puissance, et le moteur
 qui consomme un courant plus important que celui que broches peuvent fournir.
 
-Un autre circuit fréquemment utilisé est l'Allegro A4988 popularisé par le fabricant de
-matériel de hobby [Pololu](https://www.pololu.com/product/1182).
-Il permet de piloter des moteurs pas-à-pas en utilisant seulement 2 ports gpio (au minimum)
+D'autres circuits fréquemment utilisés sont le [A4988](https://www.pololu.com/product/1182) ou le 
+[DRV8825](https://www.pololu.com/product/2133) popularisés par le fabricant de
+matériel de hobby Pololu.
+Ils permettent de piloter des moteurs pas-à-pas en utilisant seulement 2 ports gpio (au minimum)
 contre 4 ports pour le contrôleur ULN2003.
 Par ailleurs, une grande partie des difficultés à surmonter pour coder le mouvement d'un
-moteur pas-à-pas en utilisant un circuit ULN2003 est prise en charge par le circuit A4988.
-Cela simplifie d'autant la charge de calcul du microcontrôleur que vous utilisez.
+moteur pas-à-pas en utilisant un circuit ULN2003 est prise en charge par ces circuits.
+Cela réduit la charge de calcul du microcontrôleur que vous utilisez.
 
 Pour notre part, nous utiliserons le couple 28BYJ-48 + ULN2003.
+Le module `stepper_control` contient néanmoins
+le code nécessaire à la mise en œuvre d'un driver DRV8825.
 
 ### Positionnement d'un moteur pas-à-pas
 
