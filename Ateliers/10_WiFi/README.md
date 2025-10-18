@@ -179,11 +179,12 @@ Par défaut `serve=False`, le serveur web n'est donc pas démarré.
 
 ### Code et sécurité
 
-Attention, si le code que vous écrivez est enregistré dans le cloud, vous ne devez pas y laisser
-vos mots de passe WiFi (ou tout autre mot de passe ou clef d'accès).
+Attention, si le code que vous écrivez est enregistré dans le cloud, pour une raison évidente (?) 
+de sécurité, vous ne devez pas y laisser vos mots de passe WiFi (ou tout autre mot de passe ou 
+clef d'accès). 
 
-Pour cela, vous pouvez créer un fichier intitulé `credential.py`, il contient les informations
-à ne pas divulguer.
+Pour séparer les données sensibles du reste du code, vous pouvez créer un fichier intitulé 
+`credential.py`, qui contiendra les informations à ne pas divulguer.
 Par exemple :
 
 ```python
@@ -194,14 +195,15 @@ wifi_ssid = "PICO_AP"
 wifi_password = "password"
 ```
 
-Puis dans le code de votre application, il suffir d'importer le fichier `credential.py` comme un
+Puis dans le code de votre application, il suffit d'importer le fichier `credential.py` comme un
 module.
 
 ```python
-import wifi, credential
+import wifi
+import credential
 
-# On connecte le Pico au réseau dont le nom est dans le module credential
+# On connecte le Pico au réseau dont le nom et la clef d'accès sont dans le module credential
 wifi.Client(credential.wifi_ssid, credential.wifi_password, blink_led=True, retries=2, max_power=True)
 ```
 
-Ensuite, seul le fichier de votre application sera partagé.
+Bien entendu, vous ne partagerez que le fichier de votre application.
