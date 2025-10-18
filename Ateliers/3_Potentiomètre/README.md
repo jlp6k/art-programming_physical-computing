@@ -8,7 +8,6 @@ forme ce que l'on appelle un (pont) [diviseur de tension](https://fr.wikipedia.o
 En vertu de la loi d'Ohm, nous pouvons déduire que la tension entre A et B est proportionnelle 
 à la tension entre A et C et au rapport des valeurs des résistances.
 
-
 ```mermaid
 flowchart LR
     left(("A")) --- A[résistance 1]
