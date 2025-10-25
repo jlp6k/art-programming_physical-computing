@@ -98,11 +98,13 @@ Le serveur produirait la musique grâce à un patch Puredata et l'enverrait vers
 
 ### Photorésistance
 
-Nous n'allons pas construire une station météo mais nous disposons d'un capteur de luminosité
+Nous n'allons pas construire une station météo mais nous disposons d'un capteur de luminosité,
+qui pourrait être utilisé dans une telle installation,
 une [photorésistance](https://fr.wikipedia.org/wiki/Photor%C3%A9sistance)
 (LDR ou _Light Dependent Resistor_ en anglais).
-Il s'agit d'un composant à deux broches dont la résistance diminue quand l'intensité
-lumineuse à laquelle il est exposé augmente.
+Il s'agit d'un composant semi-conducteur à deux broches dont la résistance diminue quand 
+l'intensité lumineuse à laquelle il est exposé augmente.
+
 En l'absence de lumière, la résistance d'une LDR est potentiellement infinie puisqu'aucun photon
 ne vient permettre aux électrons de traverser le composant.
 En pratique on considère que la résistance d'une LDR dans l'obscurité sera de l'ordre de 10-100MΩ
@@ -114,10 +116,11 @@ peut descendre en dessous de 100Ω.
 À noter que 
 - la variation de résistance d'une LDR n'est pas une fonction linéaire de l'illumination,
 - il existe différents types et modèle de LDR avec chacune leurs caractéristiques propres,
-- que pour un modèle donné, chaque LDR sera différente.
+- que pour un modèle donné, chaque LDR sera, comme pour tous les autres composants électroniques,
+légèrement différente.
 
 
-Si on construit un pont diviseur de tension avec une LDR, la tension au point central du pont
+Si on construit, comme ci-dessous, un pont diviseur de tension avec une LDR, la tension au point central du pont
 dépendra de l'éclairage de la photorésistance.
 
 ```mermaid
@@ -142,8 +145,8 @@ $$V_{mesure} = \frac{3.3R}{LDR+R}$$
 Le tableau suivant donne une indication de la tension au point de mesure pour deux valeurs
 de $R$ et différentes conditions d'éclairement.
 Le choix de cette résistance sera fonction de l'usage du circuit.
-Par exemple on privilégiera une valeur de R de quelques centaines d'ohms si le circuit doit
-être employé dans des conditions d'éclairement intense afin que la tension varie beaucoup
+Par exemple on privilégiera une valeur de $R$ de quelques centaines d'ohms si le circuit doit
+être employé dans des conditions d'éclairement plutôt intense afin que la tension varie beaucoup
 dans cette situation (et peu au-delà).
 
 |   Éclairage   |     $LDR$     | $R=220Ω$ | $R=10kΩ$ |
@@ -170,4 +173,47 @@ dans cette situation (et peu au-delà).
 |               | 52 428 800 Ω  |  0,00 V  |  0,00 V  |
 | _Pleine nuit_ | 104 857 600 Ω |  0,00 V  |  0,00 V  |
 
-... To be continued
+
+Le circuit ci-dessous met en œuvre ce que nous venons de voir.
+
+![Schéma de principe de la mise en œuvre de la LDR](assets/LDR_sch_wbg.svg)
+
+![Platine de prototypage correspondant à la mise en œuvre de la LDR](assets/LDR_proto_wbg.svg)
+
+Le code est similaire à l'un de ceux de l'atelier sur les [potentiomètres](../Ateliers/3_Potentiomètre).
+
+```python
+from time import sleep
+from averaging_adc import AveragingADC
+
+# On crée un objet de classe AveragingADC.
+# Par défaut, la moyenne est calculée sur les 16 dernières mesures...
+# Dans cet exemple, nous ferons la moyenne sur les 64 dernières mesures.
+adc = AveragingADC(0, average_size=64)
+last_measure = None
+
+
+# Dans une boucle infinie...
+while True:
+    # On attend 1/40e de seconde. Mais pendant ce temps, le programme fait 10 mesures.
+    for _ in range(10):
+        new_measure = adc.raw_u16()
+        sleep(1 / 400)
+
+    # Si la mesure a changé depuis le dernier affichage,
+    # on l'affiche sur la console (avec 3 décimales pour les volts)
+    if new_measure != last_measure:
+        # Les méthodes read_u16() et volts() renvoient la moyenne des mesures
+        print(f"{adc.read_u16()} {adc.volts():5.3f} V")
+        last_measure = new_measure
+```
+
+### Client OSC
+
+Le circuit ci-dessus sera également celui de notre client OSC mais le code va être adapté.
+Le Pico se connecte d'abord à un réseau WiFi.
+Une fois la connexion établie, il mesure les variations de tension d'un pont diviseur de
+tension avec une LDR et envoie les valeurs vers un serveur OSC.
+
+
+

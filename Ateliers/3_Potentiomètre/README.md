@@ -310,7 +310,7 @@ potentiomètre qui nous intéresse pour former un pont diviseur de tension,
 la valeur totale de la résistance du potentiomètre n'est pas choisie au hasard.
 
 Les bornes extrèmes du potentiomètre étant reliées aux rails 0V et 3.3V, le courant qui traverse 
-le potentiomètre est `I = U/R = 3.3 / 10000 = 330µA` (ou 1.089mW).
+le potentiomètre est $I = \frac{U}{R} = \frac{3.3}{10000} = 330\mu A$ (ou 1.089mW).
 Pour notre usage, ce courant est négligeable, une pile AA 1.5V alcaline pourrait le fournir 
 pendant au moins 150 jours.
 

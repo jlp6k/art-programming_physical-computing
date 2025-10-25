@@ -50,7 +50,7 @@ class AveragingADC:
         return self._sum / len(self._buffer)
 
     def read_u16(self):
-        """The read_u16() method return the value returned by the read() method cast into an int.
+        """The read_u16() method returns the value returned by the read() method cast into an int.
         It is provided for compatibility with the ADC read_u16() method as it has the same signature.
         """
         return int(self.read())
