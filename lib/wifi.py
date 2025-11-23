@@ -321,7 +321,7 @@ class Client:
 
     @staticmethod
     def _print_scan(wlan):
-        security_strings = {0: "open", 1: "WEP", 2: "WPA-PSK", 3: "WPA2-PSK", 4: "WPA/WPA2-PSK", 5:"WPA3-PSK"}
+        security_strings = {0: "open", 1: "WEP", 2: "WPA-PSK", 3: "WPA2-PSK", 4: "WPA/WPA2-PSK", 5:"WPA3-PSK", 7:"WPA/WPA2-PSK"}
 
         # self._wlan.scan() returns a list of tuples, each tuple contains 6 values:
         # 0: SSID name of the received network
