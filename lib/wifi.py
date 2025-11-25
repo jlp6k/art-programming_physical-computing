@@ -385,6 +385,6 @@ def scan_demo():
         time.sleep(10)
 
 if __name__ == "__main__":
-    access_point_demo()
+    #access_point_demo()
     # scan_demo()
-    # Client("PICO_AP", "password", traces=Client.TRACE_ALL, blink_led=True, retries=2)
+    Client("PICO_AP", "password", traces=Client.TRACE_ALL, blink_led=True, retries=2)
