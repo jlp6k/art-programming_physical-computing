@@ -113,7 +113,7 @@ Mais c'est fastidieux, difficile à faire d'une seule main (l'autre pouvant êtr
 par endommager le connecteur USB du Pico ou le câble.
 De plus, certains capteurs ne sont pas immédiatement opérationnels lorsque leur
 alimentation est (r)établie.
-C'est le cas du capteur PIR HC-SR501 (cf. [l'atelier correspondant](../6_HC-SR501/README.md))
+C'est le cas du capteur PIR HC-SR501 (cf. [l'atelier correspondant](../06_HC-SR501/README.md))
 
 La broche numéro 30 appelée `RUN` permet de faire un _reset_ (une réinitialisation) du Pico
 sans débrancher le câble USB ou couper l'alimentation.

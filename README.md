@@ -18,18 +18,18 @@ Ces modules sont disponibles dans le dossier [`lib`](lib).
 Ils reflètent ma vision de l'idée de simplification, ils pourraient ne pas convenir
 à votre usage.
 
-1. [`Base`](Ateliers/1_Base) :
+1. [`Base`](Ateliers/01_Base) :
 pour commencer le prototypage électronique avec le Raspberry Pi Pico.
 C'est un atelier dont la mise en œuvre est préalable à tous les autres ateliers.
-2. [`LED`](Ateliers/2_LED): allumer une LED, la faire clignoter.
-3. [`Potentiomètre`](Ateliers/3_Potentiomètre): faire varier une tension à l'aide
+2. [`LED`](Ateliers/02_LED): allumer une LED, la faire clignoter.
+3. [`Potentiomètre`](Ateliers/03_Potentiomètre): faire varier une tension à l'aide
 d'un potentiomètre, utiliser une entrée analogique du Raspberry Pi Pico.
-4. [`Moteur électrique`](Ateliers/4_Moteur_électrique): utiliser un moteur électrique.
-5. [`Servomoteur`](Ateliers/5_Servomoteur): utiliser un servomoteur.
-6. [`HC-SR501`](Ateliers/6_HC-SR501): mise en œuvre du module capteur de mouvement HC-SR501.
-7. [`HC-SR04`](Ateliers/7_HC-SR04): mise en œuvre du module capteur de distance à ultrason HC-SR04.
-8. [`Moteur pas-à-pas`](Ateliers/8_Moteur_pas-à-pas): utiliser un moteur pas-à-pas.
-9. [`Démarrage et redémarrage`](Ateliers/9_Démarrage_et_redémarrage): lancer automatiquement un programme au démarrage
+4. [`Moteur électrique`](Ateliers/04_Moteur_électrique): utiliser un moteur électrique.
+5. [`Servomoteur`](Ateliers/05_Servomoteur): utiliser un servomoteur.
+6. [`HC-SR501`](Ateliers/06_HC-SR501): mise en œuvre du module capteur de mouvement HC-SR501.
+7. [`HC-SR04`](Ateliers/07_HC-SR04): mise en œuvre du module capteur de distance à ultrason HC-SR04.
+8. [`Moteur pas-à-pas`](Ateliers/08_Moteur_pas-à-pas): utiliser un moteur pas-à-pas.
+9. [`Démarrage et redémarrage`](Ateliers/09_Démarrage_et_redémarrage): lancer automatiquement un programme au démarrage
 et redémarrer sans débrancher le câble USB.
 
 À noter que si le texte des ateliers est rédigé en français, il arrive que 
