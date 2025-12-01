@@ -1,7 +1,7 @@
 from machine import Pin
 
 class Monitor:
-    def __init__(self, pin_or_number, on_change=None, change=None):
+    def __init__(self, pin_or_number, on_change=None, change=None, pull=None):
         assert isinstance(pin_or_number, Pin) or (isinstance(pin_or_number, int) and 0 <= pin_or_number <= 29),\
             f"int [0..29] or Pin expected, {pin_or_number if isinstance(pin_or_number, int) else type(pin_or_number)} provided"
 
@@ -10,12 +10,13 @@ class Monitor:
 
         if isinstance(pin_or_number, int):
             # pin_or_number is a GPIO number
-            pin_or_number = Pin(pin_or_number, Pin.IN)
+            # Configure it as an input
+            pin_or_number = Pin(pin_or_number, mode=Pin.IN, pull=pull)
         else:
             # pin_or_number is a Pin instance.
             # On the Pico there is no way to check whether the Pin instance is in the Pin.IN mode.
             # So reinit it.
-            pin_or_number.init(mode=Pin.IN)
+            pin_or_number.init(mode=Pin.IN, pull=pull)
 
         self._pin = pin_or_number
 
@@ -38,6 +39,37 @@ class Monitor:
         self._pin.irq(handler=None)
 
 
+def monitor_demo(gpio):
+    monitor = Monitor(gpio)
+
+    # Use the LED to have a visual feedback
+    led = Pin("LED", Pin.OUT)
+
+    # the take_state() function will take care of the state of the pin
+    def take_state(s):
+        print(s)
+        led.value(s)
+
+    # Check the state of the monitored pin once a second during 20 seconds
+    print("Monitoring by polling")
+    for t in range(200):
+        take_state(monitor.state)
+        sleep(0.1)
+
+    # Then use the interrupt style to do the same
+    # Reinitialize the pin, but give a function to handle the changes as soon as they occur
+    print("Monitoring by IRQ")
+    monitor = Monitor(gpio, on_change=take_state)
+
+    # Then wait for 20 seconds before exiting the program
+    # If changes occur while waiting, they will be reported
+    for t in range(20):
+        sleep(1)
+
+    # Deactivate monitoring by IRQ
+    monitor.deinit()
+
+
 if __name__ == "__main__":
     # Le programme est inclus dans un gestionnaire d'exception afin de s'arrêter proprement
     # s'il est interrompu.
@@ -47,34 +79,7 @@ if __name__ == "__main__":
         from time import sleep
 
         # Test using GPIO 9 / Pico pin 12 as the monitored input
-        monitor = Monitor(9)
-
-        # Use the LED to have a visual feedback
-        led = Pin("LED", Pin.OUT)
-
-        # the take_state() function will take care of the state of the pin
-        def take_state(s):
-            print(s)
-            led.value(s)
-
-        # Check the state of the monitored pin once a second during 20 seconds
-        print("Monitoring by polling")
-        for t in range(200):
-            take_state(monitor.state)
-            sleep(0.1)
-
-        # Then use the interrupt style to do the same
-        # Reinitialize the pin, but give a function to handle the changes as soon as they occur
-        print("Monitoring by IRQ")
-        monitor = Monitor(9, on_change=take_state)
-
-        # Then wait for 20 seconds before exiting the program
-        # If changes occur while waiting, they will be reported
-        for t in range(20):
-            sleep(1)
-
-        # Deactivate monitoring by IRQ
-        monitor.deinit()
+        monitor_demo(9)
 
     except KeyboardInterrupt:
         # L'utilisateur a interrompu le programme, on réinitialise la carte.
