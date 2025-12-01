@@ -31,6 +31,8 @@ d'un potentiomètre, utiliser une entrée analogique du Raspberry Pi Pico.
 8. [`Moteur pas-à-pas`](Ateliers/08_Moteur_pas-à-pas): utiliser un moteur pas-à-pas.
 9. [`Démarrage et redémarrage`](Ateliers/09_Démarrage_et_redémarrage): lancer automatiquement un programme au démarrage
 et redémarrer sans débrancher le câble USB.
+10. [`WiFi`](Ateliers/10_WiFi): création d'un réseau WiFi ou connexion à un réseau WiFi existant.
+11. [`Open Sound Control`](Ateliers/11_Open_Sound_Control): échanger des données en WiFi avec le protocole OSC.
 
 À noter que si le texte des ateliers est rédigé en français, il arrive que 
 la documentation et les commentaires des modules contenus dans le dossier
