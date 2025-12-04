@@ -14,9 +14,8 @@ class Monitor:
             pin_or_number = Pin(pin_or_number, mode=Pin.IN, pull=pull)
         else:
             # pin_or_number is a Pin instance.
-            # On the Pico there is no way to check whether the Pin instance is in the Pin.IN mode.
-            # So reinit it.
-            pin_or_number.init(mode=Pin.IN, pull=pull)
+            if pin_or_number.mode() != Pin.IN:
+                pin_or_number.init(mode=Pin.IN, pull=pull)
 
         self._pin = pin_or_number
         self._change = change
