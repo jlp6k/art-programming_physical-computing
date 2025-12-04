@@ -19,6 +19,9 @@ class OSCClient:
             for path, value in path_value_pairs:
                 osc_bundle.add(uosc.client.create_message(path, value))
             self._osc_client.send(osc_bundle)
+            
+    def close(self):
+        self._osc_client.close()
 
 
 class OSCServer:

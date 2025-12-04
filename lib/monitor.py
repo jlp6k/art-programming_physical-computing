@@ -19,6 +19,7 @@ class Monitor:
             pin_or_number.init(mode=Pin.IN, pull=pull)
 
         self._pin = pin_or_number
+        self._change = change
 
         if on_change:
             # on_change is a function -> prepare an interrupt handler
@@ -29,7 +30,9 @@ class Monitor:
             self._pin.irq(handler=self._handler, trigger=change)
 
     def _handler(self, pin):
-        self._on_change_function(self.state)
+        self._pin.irq(handler=None, trigger=0)
+        self._on_change_function(pin.value())
+        self._pin.irq(handler=self._handler, trigger=self._change)
 
     @property
     def state(self):

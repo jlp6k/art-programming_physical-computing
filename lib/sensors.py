@@ -1,5 +1,5 @@
-from machine import Pin
-from time import sleep, sleep_us, ticks_diff, ticks_us
+from machine import Pin, reset
+from time import sleep, sleep_us, sleep_ms, ticks_diff, ticks_us, ticks_ms
 from monitor import Monitor
 
 class HCSR04:
@@ -65,7 +65,6 @@ def hcsr04_demo(trigger_gpio, echo_gpio):
         sleep(1)
 
 
-
 class Button:
     def __init__(self, gpio, on_press=None, pressed_state=1, debounce_ms=20, pull=None):
         assert on_press is None or callable(on_press), f"{on_press} must be callable."
@@ -73,6 +72,7 @@ class Button:
         self._debounce_ms = debounce_ms
         self._gpio_number = gpio
         self._gpio = Pin(gpio, mode=Pin.IN, pull=pull)
+        self._pressed_state = pressed_state
         self._on_press = on_press
 
         if callable(on_press):
@@ -81,21 +81,26 @@ class Button:
         else:
             self._monitor = None
 
-    def _handler(self, pin):
+    def _handler(self, state):
+        self._debounce()
         self._on_press(self)
 
-    def wait(self):
-        # This code come from https://docs.micropython.org/en/latest/pyboard/tutorial/debounce.html
-        # wait for pin to change value
-        # it needs to be stable for a continuous 20ms
-        cur_value = self.state
-        active = 0
-        while active < self._debounce_ms:
-            if self.state != cur_value:
-                active += 1
-            else:
-                active = 0
-            sleep(0.001)
+    def wait_press(self):
+        # Wait for the button to be pressed
+        while not self.is_pressed:
+            pass
+
+        self._debounce()
+
+    def _debounce(self):
+        last_state = self._pressed_state
+        last_change = ticks_ms()
+
+        while ticks_diff(ticks_ms(), last_change) > self._debounce_ms:
+            if self.state != last_state:
+                last_state = self.state
+                last_change = ticks_ms()
+            sleep_ms(1)
 
     @property
     def gpio(self):
@@ -105,10 +110,31 @@ class Button:
     def state(self):
         return self._gpio.value()
 
+    @property
+    def is_pressed(self):
+        return self._gpio.value() == self._pressed_state
 
-def deinit(self):
+    def deinit(self):
         if self._monitor is not None:
             self._monitor.deinit()
+
+
+def button_demo(button_1_gpio, button_2_gpio):
+    def do_something(button):
+        print("Just Do It on button", button.gpio)
+
+    try:
+        button_1 = Button(button_1_gpio, pull=Pin.PULL_UP, on_press=do_something, pressed_state=0, debounce_ms=50)
+        button_2 = Button(button_2_gpio, pull=Pin.PULL_UP, pressed_state=0)
+
+        while True:
+            button_2.wait_press()
+            print("wait_press() exited")
+            sleep(0.1)
+
+    except KeyboardInterrupt:
+        # Deactivate the buttons
+        button_1.deinit()
 
 
 if __name__ == "__main__":
@@ -117,23 +143,11 @@ if __name__ == "__main__":
     #     - the echo returns the measurement.
     # hcsr04_demo(20, 19)
 
-    from machine import reset
 
-    try:
-        def do_something(button):
-            print("Just Do It on button", button.gpio)
+    # The button demo needs 2 GPIO
+    #     - first button, handled by interruption
+    #     - second button, handled in a loop
+    button_demo(16, 17)
 
-        button_1_gpio = 16
-        button_2_gpio = 17
 
-        button_1 = Button(button_1_gpio, pull=Pin.PULL_UP, on_press=do_something, pressed_state=0)
-        button_2 = Button(button_2_gpio, pull=Pin.PULL_UP, on_press=do_something, pressed_state=0)
-
-        while True:
-            sleep(1)
-
-    except KeyboardInterrupt:
-        # Deactivate the buttons
-        button_1.deinit()
-        button_2.deinit()
 
