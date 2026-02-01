@@ -103,7 +103,7 @@ current_position = 0
 while True:
     # On lit l'entrée analogique et on translate la valeur de sorte que la variable
     # target position varie de -32767 à 32768, la position médianne du potentiomètre
-    # revoyant la valeur 0.
+    # renvoyant la valeur 0.
     target_position = adc.read_u16() - (65535 // 2)
     # On divise target_position par 40 afin de réduire la course du moteur pas-à-pas.
     # La division par 40 est choisie arbitrairement. La course totale du moteur
