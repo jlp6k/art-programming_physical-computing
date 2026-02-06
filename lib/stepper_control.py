@@ -310,7 +310,7 @@ if __name__ == "__main__":
     # Le programme ci-dessous est inclus dans un gestionnaire d'exception afin de s'arrêter proprement
     # s'il est interrompu.
     try:
-        # Uncomment on of the following lines
+        # Uncomment one of the following lines
         #uln2003_demo()
         drv8825_demo()
     except KeyboardInterrupt:

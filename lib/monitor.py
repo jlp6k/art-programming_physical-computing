@@ -2,6 +2,23 @@ from machine import Pin
 
 class Monitor:
     def __init__(self, pin_or_number, on_change=None, change=None, pull=None):
+        """This class helps to monitor a digital pin.
+
+        It can be polled, the ``state`` property reflects the state of the pin.
+
+        It can set a callback function. The function must have a single ``int``parameter which
+        receives the state on of pin upon call (the ``state`` property is still available).
+        In this use case, the ``on_change`` parameter will receive the callback function,
+        the ``change`` parameter will be set to the condition that triggers the function call, and
+        the ``pull`` parameter value will be used to configure the pull resistors of the pin.
+
+        Note when the ``pin_or_number`` is a Pin, it is reconfigured as necessary.
+
+        :param pin_or_number: ``int`` | ``machine.Pin``
+        :param on_change: a callable with one mandatory parameter
+        :param change: ``machine.Pin.IRQ_RISING`` or ``machine.Pin.IRQ_FALLING``
+        :param pull: ``None``, ``machine.Pin.PULL_UP`` or ``machine.Pin.PULL_DOWN``
+        """
         assert isinstance(pin_or_number, Pin) or (isinstance(pin_or_number, int) and 0 <= pin_or_number <= 29),\
             f"int [0..29] or Pin expected, {pin_or_number if isinstance(pin_or_number, int) else type(pin_or_number)} provided"
 
