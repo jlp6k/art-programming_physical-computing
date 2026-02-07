@@ -35,13 +35,14 @@ class Monitor:
                 pin_or_number.init(mode=Pin.IN, pull=pull)
 
         self._pin = pin_or_number
+
+        if change is None:
+            # call the on change function on rising and falling edges
+            change = Pin.IRQ_RISING | Pin.IRQ_FALLING
         self._change = change
 
         if on_change:
             # on_change is a function -> prepare an interrupt handler
-            if change is None:
-                # call the on change function on rising and falling edges
-                change = Pin.IRQ_RISING | Pin.IRQ_FALLING
             self._on_change_function = on_change
             self._pin.irq(handler=self._handler, trigger=change)
 
