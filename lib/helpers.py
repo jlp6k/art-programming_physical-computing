@@ -21,7 +21,7 @@ def call_every(function, *args, id=None, count=None, delay_ms=None, **kwargs):
     """
     if id is not None:
         if count is not None:
-            # _call_ids[id] is considered as a count
+            # _call_ids[id] is handled as a count
             # By default, it's 0
             if _call_ids.get(id, 0) <= 0:
                 # The count of calls as been reached, let's call function
@@ -34,7 +34,7 @@ def call_every(function, *args, id=None, count=None, delay_ms=None, **kwargs):
             # Exit the function
             return
         elif delay_ms is not None:
-            # _call_ids[id] is considered as a delay
+            # _call_ids[id] is handled as a delay
             # By default, it's 0
             if ticks_diff(ticks_ms(), _call_ids.get(id, 0)) > 0:
                 # The delay between calls is due, let's call function

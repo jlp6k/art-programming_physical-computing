@@ -116,6 +116,8 @@ class ULN2003:
     _HALF_STEPS = ((1, 0, 0, 1), (0, 0, 0, 1), (0, 0, 1, 1), (0, 0, 1, 0),
                    (0, 1, 1, 0), (0, 1, 0, 0), (1, 1, 0, 0), (1, 0, 0, 0))
 
+    # TODO: implement other stepping patterns?
+
     def __init__(self, pin0_id, pin1_id, pin2_id, pin3_id, delay_us=2000):
         """Initialize the ULN2003 instance.
         This expects 4 pin/gpio numbers in order to drive the ULN2003 chip.

@@ -355,7 +355,7 @@ class L298:
         equals 0.
 
         :param speed: float, new speed value.
-        :param duration: float, the GPIO connected to one of the L298 in1 or in3 inputs.
+        :param duration: float, the time (in seconds) taken to reach the desired speed.
         :return: None
         """
 
